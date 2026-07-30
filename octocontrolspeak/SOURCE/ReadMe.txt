@@ -1,41 +1,145 @@
-Short: Speaking Amiga MUI client for OctoPrint
+Short: Amiga 3D printing toolbox with OctoPrint, STL and G-code tools
 Author: Denis Costils
 Contact: costils.denis@free.fr
-Version: 0.3
-Type: comm/misc
+Type: gfx/3d
 
-OctoControl Speak is an AmigaE/MUI application for controlling an OctoPrint
-server from a classic Amiga. It is intended for Amiga systems where the modern
-OctoPrint web interface cannot be used comfortably in an Amiga web browser.
+Amiga 3DToolbox is a small 3D-printing toolbox for classic Amiga systems.
 
-This version can also speak printer events through the Amiga speech system
-using SAY, narrator.device and translator.library.
+It started as OctoControlSpeak, an Amiga MUI client for OctoPrint, because
+modern OctoPrint web pages are not usable on classic Amiga browsers. The
+project then grew into a complete toolbox around 3D printing: OctoPrint
+control, G-code utilities, STL conversion/viewing helpers, Raspberry Pi
+temperature monitoring, text-to-STL generation, and a PC slicer bridge.
 
-FEATURES
+TESTED SYSTEMS
 
-- Saves the OctoPrint IP address, port and API key.
-- Tests the OctoPrint connection and reconnects the printer.
-- Displays printer status, nozzle and bed temperatures, and current job data.
-- Opens a small monitor window with automatic refresh.
-- Mini mode keeps only the monitor window visible.
-- Lists G-code files stored in OctoPrint and starts a selected file.
-- Deletes a selected G-code file from OctoPrint.
-- Uploads G-code files from the Amiga, with optional immediate printing.
-- Home, motors off, preheat, heaters off, filament insert and retract.
-- Pause, resume and cancel print jobs.
-- Emergency M112 button.
-- Speech messages for important events.
-- Speech text can be edited without recompiling.
+- Amiga 1200 PiStorm / Emu68
+- Amiga 1200 Tower 68060
+- WinUAE
+- OctoPrint on Raspberry Pi
+- WEEDO / Entina Tina2S 3D printer
+
+PiStorm / Emu68 is recommended for the most comfortable use. On 68060 systems,
+large STL or G-code operations can be slower, but the tools remain usable.
+
+
+MAIN TOOLS
+
+OctoControlSpeak
+----------------
+
+MUI client for OctoPrint.
+
+Features:
+
+- connect to OctoPrint through the local network
+- save OctoPrint IP address, port and API key
+- read printer status, temperatures and current job data
+- upload G-code files from the Amiga
+- start uploaded files
+- list and delete OctoPrint files
+- pause, resume and cancel print jobs
+- home axes, motors off, heat off
+- filament heat, insert and retract commands
+- emergency M112 command
+- optional speech feedback through SAY / narrator.device
+- French and English versions
+
+
+PiTempMUI
+---------
+
+Small MUI client used to read the temperature of a Raspberry Pi running a tiny
+Python server.
+
+Useful when OctoPrint runs on a Raspberry Pi inside a small case.
+
+
+GCodeColorPauseMUI
+------------------
+
+Utility to insert a color-change pause in a G-code file.
+
+Designed mainly for single-extruder printers. The generated pause sequence lets
+the user manually change filament, then continue the print.
+
+
+DDD2STLMUI
+----------
+
+MUI frontend to convert Amiga 3D data handled by ddd.library to ASCII STL.
+
+Useful for moving old Amiga 3D objects toward a modern slicer workflow.
+
+
+3DView
+------
+
+3D viewer based on the work of Andre Capus.
+
+This package includes and credits the original 3DView / ddd.library work, with
+additional STL-related experiments and integration for the toolbox workflow.
+
+
+SlicerMUI / Slicer Bridge
+-------------------------
+
+Network bridge between the Amiga and a PC running a Python server.
+
+Typical workflow:
+
+1. Select an STL on the Amiga.
+2. Send it to the PC slicer server.
+3. The PC runs PrusaSlicer from the command line.
+4. The generated G-code is sent back to the Amiga.
+5. The G-code can then be sent to OctoPrint with OctoControlSpeak.
+
+
+Text2STLMUI
+-----------
+
+Creates simple text-based STL objects on the Amiga.
+
+It supports a built-in pixel style and selected Amiga fonts, depending on what
+prints cleanly.
+
+
+ZSetupMUI
+---------
+
+Small helper for Z-offset setup.
+
+WARNING: this tool sends printer movement and Z-offset commands. Use it only if
+you understand the values required by your printer. Wrong Z values can make the
+nozzle hit the bed.
+
 
 REQUIREMENTS
 
-- AmigaOS 3.x or compatible system.
-- MUI installed.
-- AmiTCP compatible bsdsocket.library.
-- An OctoPrint server reachable on the local network.
-- AmigaE 3.3 or compatible compiler, only needed to compile the source.
+Amiga side:
 
-For speech:
+- AmigaOS 3.x compatible system
+- MUI
+- TCP/IP stack such as Miami, AmiTCP or Roadshow
+- bsdsocket.library
+- AmigaE compiler if you want to rebuild the sources
+- needed AmigaE modules such as bsdsocket.m, ddd.m and related modules
+
+For OctoControlSpeak:
+
+- OctoPrint reachable on the local network
+- OctoPrint API key
+- printer already configured in OctoPrint
+
+For Slicer Bridge:
+
+- PC on the same local network
+- Python 3
+- PrusaSlicer
+- a working PrusaSlicer printer profile for your printer
+- slicer_server.py configured with PC paths and allowed Amiga IP address
+
+Optional speech support:
 
 - C:Say
 - DEVS:narrator.device
@@ -43,7 +147,7 @@ For speech:
 - LIBS:translator.library
 - SPEAK: mounted
 
-For better multilingual speech, translator42 is recommended:
+translator42 is recommended for better speech support:
 
   https://aminet.net/package/util/libs/translator42
 
@@ -51,96 +155,90 @@ For French speech, the 0Paris accent package can improve pronunciation:
 
   https://aminet.net/package/util/libs/ax_0Paris
 
-INSTALLATION
 
-1. Copy the compiled program to a directory of your choice.
-2. Copy tina2s.iff into the same directory as the compiled program.
-3. Copy octocontrol_native.cfg.example to S:octocontrol_native.cfg.
-4. Edit S:octocontrol_native.cfg:
+CONFIGURATION FILES
 
-   OCTOPRINT=192.168.1.100:80
-   APIKEY=PASTE_YOUR_OCTOPRINT_API_KEY_HERE
+Configuration examples are provided in the package.
 
-   Replace the IP address with the address of your OctoPrint server and use
-   your own OctoPrint API key.
+Typical files:
 
-5. Optional speech configuration:
+- octocontrol_native.cfg.example
+- octocontrol_speech.cfg.example
+- octocontrol_speech_en.cfg.example
+- pitemp.cfg.example
+- slicer_server.cfg
 
-   Copy octocontrol_speech.cfg.example to S:octocontrol_speech.cfg.
-   Edit this file to change the spoken messages without recompiling.
+Keep your real OctoPrint API key private. Do not publish a configuration file
+containing your personal key.
 
-6. Start OctoControl Speak and click Tester.
 
-SPEECH SETUP
+OCTOPRINT API KEY
 
-Before using the speaking features, test SAY from a Shell:
+To use OctoControlSpeak, create or copy an OctoPrint API key from a modern
+browser on a PC:
 
-  Mount SPEAK:
-  Say "OctoPrint est hors ligne"
+1. Open OctoPrint in a web browser.
+2. Go to Settings.
+3. Open Application Keys or API.
+4. Create or copy an API key.
+5. Put the IP address, port and API key in the OctoControl configuration file.
 
-If it does not speak, check that narrator.device, Speak-Handler and
-translator.library are correctly installed.
+Example S:octocontrol_native.cfg:
 
-To mount SPEAK: automatically, add this to S:User-Startup:
+  OCTOPRINT=192.168.1.100:80
+  APIKEY=PASTE_YOUR_OCTOPRINT_API_KEY_HERE
 
-  Mount SPEAK:
+The Amiga does not need to display the OctoPrint web interface after this first
+configuration step.
 
-SPEECH CONFIGURATION
 
-The file S:octocontrol_speech.cfg is optional. If it does not exist, the
-program uses built-in French messages.
-
-Example:
-
-  TEMP_OK=La buse est a temperature
-  PRINTING=L impression est en cours
-  PAUSED=L impression est en pause
-  DONE=Impression terminee
-  OCTOPRINT_OFFLINE=OctoPrint est hors ligne
-  INSERT=Insertion du filament
-  RETRACT=Retrait du filament
-
-Users can translate these messages to their own language or change the
-spelling so that SAY pronounces them better.
-
-SOURCE
-
-OctoControlSpeak.e is the full AmigaE source.
-
-The program uses these modules:
-
-  MODULE 'bsdsocket'
-  MODULE 'amitcp/sys/socket'
-  MODULE 'amitcp/netinet/in'
-
-The modules must be available to the AmigaE compiler. bsdsocket.m can be
-generated from the AmiTCP socket pragmas when it is not already installed.
-
-USAGE NOTES
-
-- Use Tester to verify OctoPrint and the API key.
-- Use Connect impr. to reconnect the printer after a reboot or emergency stop.
-- Use Status to read temperatures and open/update the monitor.
-- Use Mini to hide the main window and keep the monitor visible.
-- Use Files, select a G-code entry, then Print choix to print a file already
-  stored in OctoPrint.
-- Use Effacer to delete the selected OctoPrint file.
-- Use Envoyer to upload a G-code from the Amiga without starting it.
-- Use Envoyer+Print to upload and immediately start the selected G-code.
-- M105 is a safe communication test.
-- URGENCE M112 is a real emergency stop. It stops the printer and usually
-  requires reconnecting or restarting the printer afterwards.
-
-SECURITY
+SECURITY NOTES
 
 Never distribute your real S:octocontrol_native.cfg file. It contains your
-private OctoPrint API key. Distribute only the provided example configuration.
+private OctoPrint API key.
 
-THANKS
+The slicer server is intended for a trusted local network.
 
-Thanks to the Amiga and OctoPrint communities, MUI, AmigaE, AmiTCP, Aminet,
-translator42, 0Paris, and all users who keep classic Amiga systems alive.
+Recommended:
 
-Developed by Denis Costils with assistance from Codex.
+- configure ALLOWED_CLIENTS with only your Amiga IP address
+- do not expose slicer_server.py to the internet
+- do not publish your OctoPrint API key
+- keep a backup of your working configuration files
 
-This program is supplied as freeware with source code included.
+
+SOURCE NOTES
+
+This SOURCE drawer contains AmigaE sources and support files used by the
+toolbox.
+
+The ddd_stl_patch drawer contains the modified ddd.library source work used for
+STL support. The original 3DView / ddd.library work is credited to Andre Capus.
+
+
+CREDITS
+
+Project idea, testing and Amiga hardware workflow:
+
+- Denis Costils
+
+3DView and original ddd.library work:
+
+- Andre Capus
+
+Development assistance:
+
+- OpenAI Codex
+
+Thanks to the Amiga, OctoPrint, MUI, AmigaE, AmiTCP, Aminet and retro-computing
+communities, and to all users who keep classic Amiga systems alive.
+
+
+DISCLAIMER
+
+This software controls real hardware.
+
+Use it carefully. Always supervise a 3D printer while testing new commands,
+G-code files, Z-offset changes or emergency/reconnect workflows.
+
+This package is supplied as freeware with source code included.
