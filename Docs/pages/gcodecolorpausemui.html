@@ -1,0 +1,74 @@
+<html>
+<head>
+  <title>3DToolbox Amiga - GCodeColorPauseMUI</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#b8b8b8" text="#000000" link="#0000cc" vlink="#660099">
+<center><table width="760" border="0" cellpadding="6" cellspacing="0" bgcolor="#c8c8c8"><tr><td>
+
+<p><a href="../index.html">Menu</a> | <a href="octocontrolspeak.html">OctoControlSpeak</a> | <a href="slicermui.html">SlicerMUI</a></p>
+
+<h1>GCodeColorPauseMUI</h1>
+
+<center>
+<img src="../screenshots/GcodeColorPause.GIF" width="262" height="133" border="0" alt="GCodeColorPauseMUI">
+</center>
+
+<h2>A quoi ca sert ?</h2>
+
+<p>
+GCodeColorPauseMUI insere une pause dans un G-code pour changer le filament
+manuellement a un layer choisi.
+</p>
+
+<h2>Important</h2>
+
+<p>
+Cet outil est prevu pour une imprimante mono-tete / mono-filament. Pour une
+imprimante multi-tete ou multi-couleur automatique, utilisez le slicer PC et
+les commandes d'outils propres a la machine, par exemple T0, T1, T2.
+</p>
+
+<h2>Champs et boutons</h2>
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr><td><b>Source G-code</b></td><td>Fichier G-code original.</td></tr>
+<tr><td><b>Output G-code</b></td><td>Nouveau fichier G-code avec pause couleur.</td></tr>
+<tr><td><b>Layer</b></td><td>Layer ou inserer la pause.</td></tr>
+<tr><td><b>Insert</b></td><td>Cree le nouveau G-code.</td></tr>
+</table>
+
+<h2>Sequence inseree</h2>
+
+<pre>
+M400
+G91
+G1 Z5 F300
+G90
+G1 X10 Y10 F3000
+@pause Changement couleur
+G91
+G1 E5 F150
+G1 E-1 F300
+G90
+</pre>
+
+<p>
+La petite retractation aide a eviter un paquet de filament au moment de la
+reprise.
+</p>
+
+<h2>Workflow</h2>
+
+<ol>
+<li>Slicer le STL pour obtenir un G-code.</li>
+<li>Reperer le layer de changement.</li>
+<li>Inserer la pause avec GCodeColorPauseMUI.</li>
+<li>Envoyer le nouveau G-code avec OctoControlSpeak.</li>
+</ol>
+
+<p><a href="../index.html">Retour menu</a></p>
+
+</td></tr></table></center>
+</body>
+</html>

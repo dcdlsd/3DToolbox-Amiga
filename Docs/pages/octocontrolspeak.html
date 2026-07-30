@@ -1,0 +1,94 @@
+<html>
+<head>
+  <title>3DToolbox Amiga - OctoControlSpeak</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#b8b8b8" text="#000000" link="#0000cc" vlink="#660099">
+<center><table width="760" border="0" cellpadding="6" cellspacing="0" bgcolor="#c8c8c8"><tr><td>
+
+<p><a href="../index.html">Menu</a> | <a href="slicermui.html">SlicerMUI</a> | <a href="troubleshooting.html">Depannage</a></p>
+
+<h1>OctoControlSpeak</h1>
+
+<center>
+<img src="../screenshots/OctoControlSpeak.GIF" width="339" height="604" border="0" alt="OctoControlSpeak">
+</center>
+
+<h2>A quoi ca sert ?</h2>
+
+<p>
+OctoControlSpeak controle OctoPrint depuis l'Amiga sans navigateur moderne.
+Il envoie des commandes a OctoPrint, qui pilote ensuite l'imprimante 3D.
+</p>
+
+<h2>Configuration</h2>
+
+<pre>
+S:octocontrol_native.cfg
+
+OCTOPRINT=192.168.1.xxx:80
+APIKEY=PASTE_YOUR_OCTOPRINT_API_KEY_HERE
+</pre>
+
+<p>
+La cle API se recupere dans OctoPrint avec un navigateur moderne. Ne mettez
+pas votre vraie cle dans une archive publique.
+</p>
+
+<h2>Boutons connexion</h2>
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr><td><b>Sauver</b></td><td>Sauve IP, port et cle API dans la configuration.</td></tr>
+<tr><td><b>Tester</b></td><td>Verifie qu'OctoPrint repond.</td></tr>
+<tr><td><b>Connect impr.</b></td><td>Demande a OctoPrint de reconnecter l'imprimante.</td></tr>
+<tr><td><b>RAZ</b></td><td>Arrete les chauffes, remonte Z, degage X/Y et coupe les moteurs.</td></tr>
+<tr><td><b>Mini</b></td><td>Masque la fenetre principale et garde le moniteur.</td></tr>
+</table>
+
+<h2>Boutons lecture</h2>
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr><td><b>Status</b></td><td>Lit l'etat imprimante, temperatures et progression.</td></tr>
+<tr><td><b>Job</b></td><td>Lit les informations de l'impression en cours.</td></tr>
+<tr><td><b>M105</b></td><td>Commande temperature utile pour tester la communication.</td></tr>
+<tr><td><b>Files</b></td><td>Liste les fichiers G-code presents dans OctoPrint.</td></tr>
+<tr><td><b>Print choix</b></td><td>Imprime le fichier selectionne dans la liste OctoPrint.</td></tr>
+<tr><td><b>Effacer</b></td><td>Efface le fichier selectionne dans OctoPrint.</td></tr>
+</table>
+
+<h2>Boutons impression</h2>
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr><td><b>Envoyer</b></td><td>Envoie un fichier G-code de l'Amiga vers OctoPrint.</td></tr>
+<tr><td><b>Envoyer+Print</b></td><td>Envoie le G-code puis lance l'impression.</td></tr>
+<tr><td><b>Pause</b></td><td>Met l'impression en pause.</td></tr>
+<tr><td><b>Resume</b></td><td>Reprend l'impression.</td></tr>
+<tr><td><b>Cancel</b></td><td>Annule l'impression puis lance une sequence de remise au calme.</td></tr>
+<tr><td><b>URGENCE M112</b></td><td>Arret d'urgence firmware. A utiliser seulement en cas de probleme reel.</td></tr>
+</table>
+
+<h2>Boutons machine</h2>
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr><td><b>Home</b></td><td>Retour origine de la machine.</td></tr>
+<tr><td><b>Mot OFF</b></td><td>Coupe les moteurs.</td></tr>
+<tr><td><b>PLA</b></td><td>Chauffe pour PLA selon la configuration.</td></tr>
+<tr><td><b>Heat OFF</b></td><td>Coupe les chauffes.</td></tr>
+<tr><td><b>Chauffe Buse</b></td><td>Chauffe la buse pour manipulation filament.</td></tr>
+<tr><td><b>Inserer Fil</b></td><td>Insere le filament.</td></tr>
+<tr><td><b>Retirer Fil</b></td><td>Retire le filament.</td></tr>
+</table>
+
+<h2>Parole</h2>
+
+<p>
+La parole utilise SAY, narrator.device et translator.library. Les phrases
+peuvent etre modifiees dans S:octocontrol_speech.cfg. Si la parole n'est pas
+installee, le programme reste utilisable.
+</p>
+
+<p><a href="../index.html">Retour menu</a></p>
+
+</td></tr></table></center>
+</body>
+</html>

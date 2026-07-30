@@ -1,0 +1,54 @@
+<html>
+<head>
+  <title>3DToolbox Amiga - ZSetupMUI</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#b8b8b8" text="#000000" link="#0000cc" vlink="#660099">
+<center><table width="760" border="0" cellpadding="6" cellspacing="0" bgcolor="#c8c8c8"><tr><td>
+
+<p><a href="../index.html">Menu</a> | <a href="octocontrolspeak.html">OctoControlSpeak</a> | <a href="troubleshooting.html">Depannage</a></p>
+
+<h1>ZSetupMUI</h1>
+
+<center>
+<img src="../screenshots/ZSetup.GIF" width="403" height="161" border="0" alt="ZSetupMUI">
+</center>
+
+<h2>A quoi ca sert ?</h2>
+
+<p>
+ZSetupMUI aide a regler le Z offset de l'imprimante depuis l'Amiga. Il utilise
+un petit programme de commande G-code nomme ZSetup.
+</p>
+
+<h2>Attention</h2>
+
+<p>
+Une mauvaise valeur Z peut faire taper la buse dans le plateau. Utilisez cet
+outil seulement si vous comprenez le reglage Z de votre machine. Restez pret a
+couper l'imprimante pendant les tests.
+</p>
+
+<h2>Commandes typiques</h2>
+
+<pre>
+G28       Home
+G29       Auto-level si supporte
+M851      Lire/ecrire le Z offset Marlin
+M500      Sauver en EEPROM
+</pre>
+
+<h2>Conseils</h2>
+
+<ul>
+<li>Commencez proche de 0.00 pour la distribution.</li>
+<li>Reglez par petits pas, par exemple 0.05 mm.</li>
+<li>Utilisez une feuille de papier pour verifier la hauteur.</li>
+<li>Apres sauvegarde, verifiez avec M503 si votre firmware le permet.</li>
+</ul>
+
+<p><a href="../index.html">Retour menu</a></p>
+
+</td></tr></table></center>
+</body>
+</html>

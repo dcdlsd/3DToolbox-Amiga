@@ -1,0 +1,93 @@
+Short:        Z offset setup helper for OctoPrint/Marlin
+Author:       Denis Costils, with help from ChatGPT/Codex
+Uploader:     Denis Costils
+Type:         comm/tcp
+Version:      0.1
+Requires:     AmigaOS 3.x, bsdsocket.library/AmiTCP compatible stack, OctoPrint API key
+Architecture: m68k-amigaos
+
+ZSetup is a small command line helper used to adjust the Z offset of a
+Marlin printer controlled through OctoPrint.
+
+It was written for a Tina2S/Marlin printer, after testing these commands:
+G29, M420 S1, M851 Z..., M500 and M503.
+
+Configuration
+-------------
+
+ZSetup uses the same OctoPrint configuration file as OctoControlSpeak:
+
+  S:octocontrol_native.cfg
+
+The file must contain your OctoPrint IP address, port and API key.
+
+ZSetup stores its own current Z offset in:
+
+  S:zsetup.cfg
+
+The value is stored in centi-mm. For example OFFSET=-75 means -0.75 mm.
+
+Usage
+-----
+
+First set the current known printer offset. For distribution, ZSetup starts
+from 0.00 by default for safety:
+
+  ZSetup SET OFFSET=0.00
+
+Start the assisted setup:
+
+  ZSetup START
+
+This sends:
+
+  G28
+  G29
+  M420 S1
+  G90
+  G1 Z10 F300
+  G1 X50 Y50 F3000
+  G1 Z0.5 F100
+
+Then place a sheet of paper under the nozzle.
+
+Move the nozzle down by 0.05 mm and save the new offset:
+
+  ZSetup DOWN
+
+Move the nozzle up by 0.05 mm and save the new offset:
+
+  ZSetup UP
+
+Show the saved ZSetup value:
+
+  ZSetup SHOW
+
+Return the printer to home:
+
+  ZSetup HOME
+
+Force saving the current ZSetup value to the printer:
+
+  ZSetup SAVE
+
+Safety
+------
+
+Keep your hand near the printer stop/power button while testing.
+Use small steps only. This tool changes the printer Z offset with M851 and
+saves it with M500.
+Do not use this tool unless you understand the correct Z-offset direction for
+your printer. A wrong Z-offset can make the nozzle hit the bed.
+
+ZSetup refuses offsets outside this range:
+
+  -5.00 mm to +5.00 mm
+
+You can verify the real printer value from OctoPrint with:
+
+  M503
+
+Look for:
+
+  M851 X0.00 Y0.00 Z-...

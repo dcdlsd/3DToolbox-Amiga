@@ -1,0 +1,103 @@
+<html>
+<head>
+  <title>3DToolbox Amiga - SlicerMUI</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#b8b8b8" text="#000000" link="#0000cc" vlink="#660099">
+<center><table width="760" border="0" cellpadding="6" cellspacing="0" bgcolor="#c8c8c8"><tr><td>
+
+<p><a href="../index.html">Menu</a> | <a href="octocontrolspeak.html">OctoControlSpeak</a> | <a href="troubleshooting.html">Depannage</a></p>
+
+<h1>SlicerMUI / Slicer Bridge</h1>
+
+<center>
+<img src="../screenshots/SlicerBridge.GIF" width="283" height="360" border="0" alt="SlicerMUI">
+</center>
+
+<h2>A quoi ca sert ?</h2>
+
+<p>
+SlicerMUI envoie un STL depuis l'Amiga vers un serveur Python sur PC. Le PC
+lance PrusaSlicer en ligne de commande, puis l'Amiga recupere le G-code.
+</p>
+
+<pre>
+Amiga STL -&gt; PC SlicerServer -&gt; PrusaSlicer -&gt; G-code -&gt; Amiga
+</pre>
+
+<h2>Configuration PC</h2>
+
+<pre>
+slicer_server.py
+slicer_server.cfg
+Python 3
+PrusaSlicer
+prusa-slicer-console.exe
+profil imprimante .ini
+</pre>
+
+<p>
+Exemple de slicer_server.cfg:
+</p>
+
+<pre>
+HOST=0.0.0.0
+PORT=18090
+ALLOWED_CLIENTS=127.0.0.1,IP_DE_VOTRE_AMIGA
+MAX_UPLOAD_MB=64
+ALLOW_PC_PATHS=no
+PRUSA_EXE=C:\Program Files\Prusa3D\PrusaSlicer\prusa-slicer-console.exe
+BASE_DIR=C:\SlicerBridge
+PROFILE_STANDARD=C:\Users\Denis\AppData\Roaming\PrusaSlicer\MonProfil.ini
+</pre>
+
+<p>
+Remplacez IP_DE_VOTRE_AMIGA par l'adresse IP reelle de votre Amiga. Remplacez
+le profil .ini par le profil de votre imprimante.
+</p>
+
+<h2>Champs de SlicerMUI</h2>
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr><td><b>IP address</b></td><td>Adresse IP du PC qui lance slicer_server.py.</td></tr>
+<tr><td><b>Port</b></td><td>Port du serveur, 18090 par defaut.</td></tr>
+<tr><td><b>Local STL</b></td><td>Fichier STL present sur l'Amiga.</td></tr>
+<tr><td><b>PC STL name</b></td><td>Nom sous lequel le STL sera stocke cote PC.</td></tr>
+<tr><td><b>Scale %</b></td><td>Echelle appliquee avant slicing.</td></tr>
+<tr><td><b>G-code output</b></td><td>Chemin du G-code a recuperer sur l'Amiga.</td></tr>
+<tr><td><b>Job ID</b></td><td>Numero de travail cote serveur PC.</td></tr>
+</table>
+
+<h2>Boutons</h2>
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr><td><b>Test</b></td><td>Verifie que le serveur PC repond.</td></tr>
+<tr><td><b>Save</b></td><td>Sauve IP et port dans S:slicermui.cfg.</td></tr>
+<tr><td><b>STL Info</b></td><td>Envoie le STL pour lire dimensions et scale conseille.</td></tr>
+<tr><td><b>Upload+Slice</b></td><td>Envoie le STL et lance PrusaSlicer cote PC.</td></tr>
+<tr><td><b>Last</b></td><td>Relit le dernier job du serveur.</td></tr>
+<tr><td><b>Job</b></td><td>Relit le job ID indique.</td></tr>
+<tr><td><b>Download</b></td><td>Recupere le G-code genere.</td></tr>
+<tr><td><b>Files</b></td><td>Liste les STL/G-code connus du serveur.</td></tr>
+<tr><td><b>Delete</b></td><td>Efface le fichier selectionne cote serveur.</td></tr>
+<tr><td><b>Clear</b></td><td>Vide la zone information.</td></tr>
+</table>
+
+<h2>Workflow conseille</h2>
+
+<ol>
+<li>Lancer slicer_server.py sur le PC.</li>
+<li>Tester la connexion dans SlicerMUI.</li>
+<li>Choisir un STL local.</li>
+<li>Cliquer STL Info et lire le scale conseille.</li>
+<li>Corriger le scale si necessaire.</li>
+<li>Cliquer Upload+Slice.</li>
+<li>Quand le job est OK, cliquer Download.</li>
+<li>Envoyer le G-code avec OctoControlSpeak.</li>
+</ol>
+
+<p><a href="../index.html">Retour menu</a></p>
+
+</td></tr></table></center>
+</body>
+</html>

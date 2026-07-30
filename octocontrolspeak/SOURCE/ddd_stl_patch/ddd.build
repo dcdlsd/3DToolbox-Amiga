@@ -1,0 +1,40 @@
+ddd.m: ddd.e dddHeader.m dddobject.m
+    FAILAT 10000
+    ECHO "[1m[41m[32m$target[0m"
+    EC ddd.e `GETENV EDEV/ECOPT`
+    SET ret $rc
+    IF $ret GT 0
+        ECHO "Erreur De compilation (fichier) $target (ligne) "$ret
+        SetEnv EDEV/ERROR $ret
+        SetEnv EDEV/FILEERROR ddd.e
+        QUIT
+    ENDIF
+    Copy ddd.library libs:
+    Copy ddd.m Emodules:
+    FlushLibs
+
+dddHeader.m: dddHeader.e
+    FAILAT 10000
+    ECHO "[1m[41m[32m$target[0m"
+    EC dddHeader.e `GETENV EDEV/ECOPT`
+    SET ret $rc
+    IF $ret GT 0
+        ECHO "Erreur De compilation (fichier) $target (ligne) "$ret
+        SetEnv EDEV/ERROR $ret
+        SetEnv EDEV/FILEERROR dddHeader.e
+        QUIT
+    ENDIF
+
+dddobject.m: dddobject.e
+    FAILAT 10000
+    ECHO "[1m[41m[32m$target[0m"
+    EC dddobject.e `GETENV EDEV/ECOPT`
+    SET ret $rc
+    IF $ret GT 0
+        ECHO "Erreur De compilation (fichier) $target (ligne) "$ret
+        SetEnv EDEV/ERROR $ret
+        SetEnv EDEV/FILEERROR dddobject.e
+        QUIT
+    ENDIF
+    Copy dddobject.m Emodules:libraries
+

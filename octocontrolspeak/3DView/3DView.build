@@ -1,0 +1,36 @@
+3DView: 3DView.e 3DViewMUI.m
+    FAILAT 10000
+    ECHO "[1m[41m[32m$target[0m"
+    EC 3DView.e `GETENV EDEV/ECOPT`
+    SET ret $rc
+    IF $ret GT 0
+        ECHO "Erreur De compilation (fichier) $target (ligne) "$ret
+        SetEnv EDEV/ERROR $ret
+        SetEnv EDEV/FILEERROR 3DView.e
+        QUIT
+    ENDIF
+
+3DViewMUI.m: 3DViewMUI.e 3DViewHeader.m
+    FAILAT 10000
+    ECHO "[1m[41m[32m$target[0m"
+    EC 3DViewMUI.e `GETENV EDEV/ECOPT`
+    SET ret $rc
+    IF $ret GT 0
+        ECHO "Erreur De compilation (fichier) $target (ligne) "$ret
+        SetEnv EDEV/ERROR $ret
+        SetEnv EDEV/FILEERROR 3DViewMUI.e
+        QUIT
+    ENDIF
+
+3DViewHeader.m: 3DViewHeader.e
+    FAILAT 10000
+    ECHO "[1m[41m[32m$target[0m"
+    EC 3DViewHeader.e `GETENV EDEV/ECOPT`
+    SET ret $rc
+    IF $ret GT 0
+        ECHO "Erreur De compilation (fichier) $target (ligne) "$ret
+        SetEnv EDEV/ERROR $ret
+        SetEnv EDEV/FILEERROR 3DViewHeader.e
+        QUIT
+    ENDIF
+

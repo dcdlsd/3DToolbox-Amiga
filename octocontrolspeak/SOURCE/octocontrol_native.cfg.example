@@ -1,0 +1,4 @@
+# OctoControl Native configuration example
+# Copy this file to S:octocontrol_native.cfg and edit both values.
+OCTOPRINT=192.168.1.100:80
+APIKEY=PASTE_YOUR_OCTOPRINT_API_KEY_HERE

@@ -1,0 +1,97 @@
+<html>
+<head>
+  <title>3DToolbox Amiga - Installation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#b8b8b8" text="#000000" link="#0000cc" vlink="#660099">
+<center><table width="760" border="0" cellpadding="6" cellspacing="0" bgcolor="#c8c8c8"><tr><td>
+
+<p><a href="../index.html">Menu</a> | <a href="troubleshooting.html">Depannage</a></p>
+
+<h1>Installation generale</h1>
+
+<h2>Cote Amiga</h2>
+
+<p>
+Copiez les programmes dans un tiroir, par exemple:
+</p>
+
+<pre>
+SYS:Tools/3DToolbox/
+</pre>
+
+<p>
+Vous pouvez aussi creer un assign:
+</p>
+
+<pre>
+Assign 3dtoolbox: SYS:Tools/3DToolbox
+</pre>
+
+<p>
+Programmes principaux:
+</p>
+
+<pre>
+Print3DToolboxMUI
+OctoControlSpeak
+OctoControlSpeak_EN
+SlicerMUI
+Text2STLMUI
+GCodeColorPauseMUI
+ZSetupMUI
+ZSetup
+PiTempMUI
+DDD2STLMUI
+3DView
+</pre>
+
+<h2>Configurations dans S:</h2>
+
+<pre>
+S:octocontrol_native.cfg
+S:octocontrol_speech.cfg
+S:pitemp.cfg
+S:zsetup.cfg
+S:slicermui.cfg
+</pre>
+
+<p>
+Distribuez seulement les fichiers exemple. Ne distribuez jamais un fichier
+contenant votre vraie cle API OctoPrint.
+</p>
+
+<h2>Librairies utiles</h2>
+
+<pre>
+muimaster.library
+bsdsocket.library
+ddd.library
+reqtools.library
+narrator.device et translator.library pour la parole
+</pre>
+
+<p>
+La pile TCP/IP Amiga doit etre active pour OctoControlSpeak, SlicerMUI,
+PiTempMUI et ZSetupMUI.
+</p>
+
+<h2>Cote PC</h2>
+
+<p>
+Pour SlicerMUI, installez Python 3 et PrusaSlicer. Le script
+slicer_server.py tourne sur le PC et appelle prusa-slicer-console.exe.
+</p>
+
+<h2>Cote OctoPrint</h2>
+
+<p>
+OctoPrint doit etre accessible sur le reseau local. L'imprimante doit etre
+connectee dans OctoPrint. OctoControlSpeak utilise une cle API OctoPrint.
+</p>
+
+<p><a href="../index.html">Retour menu</a></p>
+
+</td></tr></table></center>
+</body>
+</html>

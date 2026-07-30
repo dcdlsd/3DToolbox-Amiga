@@ -1,0 +1,72 @@
+<html>
+<head>
+  <title>3DToolbox Amiga - Depannage</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#b8b8b8" text="#000000" link="#0000cc" vlink="#660099">
+<center><table width="760" border="0" cellpadding="6" cellspacing="0" bgcolor="#c8c8c8"><tr><td>
+
+<p><a href="../index.html">Menu</a> | <a href="install.html">Installation</a></p>
+
+<h1>Depannage et securite</h1>
+
+<h2>OctoControlSpeak ne repond pas</h2>
+
+<ul>
+<li>Verifier que la pile TCP/IP Amiga est en ligne.</li>
+<li>Verifier IP, port et cle API OctoPrint.</li>
+<li>Verifier que OctoPrint est allume.</li>
+<li>Verifier que l'imprimante est connectee dans OctoPrint.</li>
+</ul>
+
+<h2>SlicerMUI ne contacte pas le PC</h2>
+
+<ul>
+<li>Verifier que slicer_server.py tourne sur le PC.</li>
+<li>Verifier IP et port, par defaut 18090.</li>
+<li>Verifier le firewall Windows.</li>
+<li>Verifier ALLOWED_CLIENTS dans slicer_server.cfg.</li>
+</ul>
+
+<h2>Client refuse par le serveur</h2>
+
+<p>
+Dans slicer_server.cfg, ajoutez l'adresse IP de l'Amiga:
+</p>
+
+<pre>
+ALLOWED_CLIENTS=127.0.0.1,IP_DE_VOTRE_AMIGA
+</pre>
+
+<h2>STL trop grand</h2>
+
+<ul>
+<li>Utiliser STL Info dans SlicerMUI.</li>
+<li>Lire le scale conseille.</li>
+<li>Verifier la taille plateau dans le profil PrusaSlicer.</li>
+</ul>
+
+<h2>PrusaSlicer ne genere pas le G-code</h2>
+
+<ul>
+<li>Verifier PRUSA_EXE.</li>
+<li>Verifier PROFILE_STANDARD.</li>
+<li>Tester le profil directement dans PrusaSlicer sur PC.</li>
+</ul>
+
+<h2>Securite</h2>
+
+<ul>
+<li>Ne distribuez jamais votre cle API OctoPrint.</li>
+<li>Ne mettez pas le serveur PC sur Internet.</li>
+<li>Gardez ALLOW_PC_PATHS=no.</li>
+<li>Gardez une petite liste ALLOWED_CLIENTS.</li>
+<li>Testez d'abord de petits objets.</li>
+<li>Utilisez ZSetupMUI avec prudence.</li>
+</ul>
+
+<p><a href="../index.html">Retour menu</a></p>
+
+</td></tr></table></center>
+</body>
+</html>

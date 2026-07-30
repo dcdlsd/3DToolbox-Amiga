@@ -1,0 +1,610 @@
+@DATABASE 3DToolbox.guide
+@AUTHOR "Denis Costils / Denis-Amiga"
+@$VER: 3DToolbox.guide 0.1 (26.07.2026)
+@TITLE "3DToolbox Amiga"
+
+@NODE MAIN "3DToolbox Amiga"
+3DToolbox Amiga
+================
+
+3DToolbox regroupe plusieurs petits outils Amiga autour de l'impression 3D:
+pilotage OctoPrint, surveillance, conversion 3D, insertion de pause couleur,
+reglage Z, creation de texte STL et passerelle vers un slicer PC.
+
+L'idee principale:
+
+  Amiga -> reseau local -> OctoPrint / PC slicer -> imprimante 3D
+
+La Tina2S de Denis sert d'exemple, mais le principe peut fonctionner avec
+d'autres imprimantes si elles sont compatibles avec OctoPrint et si un profil
+PrusaSlicer correct existe.
+
+Sections:
+
+  @{"Installation Amiga" LINK INSTALL_AMIGA}
+  @{"OctoControlSpeak" LINK OCTOCONTROL}
+  @{"Cle API OctoPrint" LINK API_KEY}
+  @{"Slicer Bridge PC" LINK SLICER_SERVER}
+  @{"Configuration slicer_server.cfg" LINK SLICER_CFG}
+  @{"Profil PrusaSlicer" LINK PRUSA_PROFILE}
+  @{"SlicerMUI cote Amiga" LINK SLICERMUI}
+  @{"Text2STLMUI" LINK TEXT2STL}
+  @{"GCodeColorPauseMUI" LINK COLOR_PAUSE}
+  @{"DDD2STLMUI et 3DView" LINK DDD_VIEW}
+  @{"PiTempMUI" LINK PITEMP}
+  @{"ZSetupMUI" LINK ZSETUP}
+  @{"Securite" LINK SECURITY}
+  @{"Depannage" LINK TROUBLE}
+  @{"Credits" LINK CREDITS}
+
+@ENDNODE
+
+@NODE INSTALL_AMIGA "Installation Amiga"
+Installation Amiga
+==================
+
+Copiez les programmes dans un tiroir de votre choix, par exemple:
+
+  SYS:Tools/3DToolbox/
+
+Ou utilisez un assign:
+
+  Assign 3dtoolbox: SYS:Tools/3DToolbox
+
+Programmes principaux:
+
+  Print3DToolboxMUI
+  OctoControlSpeak
+  OctoControlSpeak_EN
+  PiTempMUI
+  DDD2STLMUI
+  GCodeColorPauseMUI
+  ZSetupMUI
+  ZSetup
+  SlicerMUI
+  Text2STLMUI
+  3DView
+
+Fichiers utiles:
+
+  tina2s.iff
+  icons/
+  *.info
+  fichiers *.cfg.example
+
+Configs dans S:
+
+  S:octocontrol_native.cfg
+  S:octocontrol_speech.cfg
+  S:octocontrol_speech_en.cfg
+  S:pitemp.cfg
+  S:zsetup.cfg
+  S:slicermui.cfg
+
+Librairies necessaires:
+
+  MUI / muimaster.library
+  bsdsocket.library via Miami, AmiTCP, Roadshow ou equivalent
+  ddd.library pour 3DView / DDD
+  reqtools.library pour certains outils 3D
+
+Option parole:
+
+  C:Say
+  DEVS:narrator.device
+  LIBS:translator.library
+  L:Speak-Handler
+  SPEAK: monte si votre configuration le demande
+
+@{"Retour" LINK MAIN}
+@ENDNODE
+
+@NODE OCTOCONTROL "OctoControlSpeak"
+OctoControlSpeak
+================
+
+OctoControlSpeak est un client MUI pour piloter OctoPrint depuis un Amiga,
+sans navigateur moderne.
+
+Fonctions:
+
+  Tester la connexion OctoPrint
+  Reconnecter l'imprimante
+  Lire le status, les temperatures et le job en cours
+  Mini moniteur avec rafraichissement automatique
+  Lister les fichiers G-code presents dans OctoPrint
+  Imprimer un fichier selectionne
+  Effacer un fichier G-code dans OctoPrint
+  Envoyer un G-code depuis l'Amiga
+  Envoyer + imprimer directement
+  Pause, Resume, Cancel
+  Home, Motors OFF, Heat OFF
+  Chauffe buse, insertion/retrait filament
+  Urgence M112
+  Messages par SAY/narrator.device
+
+Configuration minimale dans S:octocontrol_native.cfg:
+
+  OCTOPRINT=192.168.1.100:80
+  APIKEY=VOTRE_CLE_API_OCTOPRINT
+
+Ne distribuez jamais votre vrai fichier S:octocontrol_native.cfg:
+il contient votre cle API privee.
+
+@{"Retour" LINK MAIN}
+@ENDNODE
+
+@NODE API_KEY "Cle API OctoPrint"
+Cle API OctoPrint
+=================
+
+OctoControlSpeak a besoin d'une cle API OctoPrint.
+
+Utilisez un navigateur moderne sur PC, Mac, Linux ou autre machine capable
+d'afficher l'interface web OctoPrint.
+
+Procedure generale:
+
+  1. Ouvrir OctoPrint dans le navigateur.
+  2. Ouvrir Settings / Parametres.
+  3. Aller dans Application Keys ou API.
+  4. Generer ou copier une cle API.
+  5. Mettre cette cle dans S:octocontrol_native.cfg.
+
+Exemple:
+
+  OCTOPRINT=192.168.1.100:80
+  APIKEY=PASTE_YOUR_OCTOPRINT_API_KEY_HERE
+
+Le port est souvent 80 avec OctoPi classique, mais il peut etre different
+selon votre installation.
+
+@{"Retour" LINK MAIN}
+@ENDNODE
+
+@NODE SLICER_SERVER "Slicer Bridge PC"
+Slicer Bridge PC
+================
+
+SlicerMUI ne remplace pas un slicer sur Amiga.
+
+Le principe est de faire travailler un PC sur le reseau:
+
+  Amiga STL -> PC SlicerServer -> PrusaSlicer -> G-code -> Amiga
+
+Cote PC il faut:
+
+  Python 3
+  PrusaSlicer
+  prusa-slicer-console.exe
+  un profil imprimante PrusaSlicer en .ini
+  slicer_server.py
+  slicer_server.cfg
+
+Demarrage manuel depuis PowerShell:
+
+  python .\slicer_server.py
+
+Par defaut le serveur ecoute sur le port:
+
+  18090
+
+Le serveur affiche aussi des informations dans sa fenetre console. C'est utile
+pour voir les erreurs: client refuse, fichier trop grand, profil introuvable,
+PrusaSlicer absent, etc.
+
+Important:
+
+  Le serveur PC ne parle pas directement a OctoPrint.
+  Il sert seulement a transformer un STL en G-code.
+  L'impression se lance ensuite avec OctoControlSpeak.
+
+@{"Retour" LINK MAIN}
+@ENDNODE
+
+@NODE SLICER_CFG "slicer_server.cfg"
+Configuration slicer_server.cfg
+===============================
+
+Le fichier slicer_server.cfg se trouve dans le meme dossier que
+slicer_server.py. S'il n'existe pas, le serveur peut le creer.
+
+Exemple:
+
+  HOST=0.0.0.0
+  PORT=18090
+  ALLOWED_CLIENTS=127.0.0.1,IP_DE_VOTRE_AMIGA
+  MAX_UPLOAD_MB=64
+  ALLOW_PC_PATHS=no
+  PRUSA_EXE=C:\Program Files\Prusa3D\PrusaSlicer\prusa-slicer-console.exe
+  BASE_DIR=C:\SlicerBridge
+  PROFILE_STANDARD=C:\Users\Denis\AppData\Roaming\PrusaSlicer\Tina2s.ini
+
+Explication:
+
+  HOST=0.0.0.0
+    Le PC ecoute sur toutes ses interfaces reseau.
+
+  PORT=18090
+    Port utilise par SlicerMUI cote Amiga.
+
+  ALLOWED_CLIENTS=127.0.0.1,IP_DE_VOTRE_AMIGA
+    Liste des machines autorisees.
+    Remplacez l'exemple par l'adresse IP reelle de votre Amiga.
+
+  MAX_UPLOAD_MB=64
+    Taille maximum acceptee pour un STL.
+
+  ALLOW_PC_PATHS=no
+    Mode recommande. L'Amiga doit envoyer le STL au serveur.
+    Cela evite qu'un client reseau demande au serveur de lire n'importe
+    quel chemin sur le PC.
+
+  PRUSA_EXE=
+    Chemin complet vers prusa-slicer-console.exe.
+
+  BASE_DIR=
+    Dossier de travail du serveur.
+
+  PROFILE_STANDARD=
+    Chemin complet vers le profil PrusaSlicer de votre imprimante.
+
+Le serveur utilise des sous-dossiers:
+
+  in      STL recus
+  out     G-code generes
+  done    travaux termines
+  error   erreurs texte
+  work    fichiers temporaires
+
+@{"Retour" LINK MAIN}
+@ENDNODE
+
+@NODE PRUSA_PROFILE "Profil PrusaSlicer"
+Profil PrusaSlicer
+==================
+
+Le profil PrusaSlicer est la partie la plus importante si vous n'utilisez pas
+la meme imprimante que Denis.
+
+Pour une autre imprimante:
+
+  1. Installer PrusaSlicer sur le PC.
+  2. Creer ou importer le profil de votre imprimante.
+  3. Verifier la taille du plateau.
+  4. Verifier le firmware G-code, Marlin dans beaucoup de cas.
+  5. Verifier les temperatures buse/plateau.
+  6. Verifier le G-code de debut et de fin.
+  7. Exporter ou retrouver le profil .ini.
+  8. Mettre le chemin de ce .ini dans slicer_server.cfg.
+
+Exemple Tina2S de Denis:
+
+  PROFILE_STANDARD=C:\Users\d.costils\AppData\Roaming\PrusaSlicer\Tina2s_denis_complete_standard.ini
+
+Ce n'est qu'un exemple.
+
+Chaque imprimante doit avoir son propre profil correct. Si le profil est faux,
+le G-code peut etre mauvais: mauvaise taille de plateau, mauvaise temperature,
+origine mal placee, vitesse trop forte ou commandes incompatibles.
+
+Conseil:
+
+  Testez d'abord un petit cube ou un petit texte.
+  Verifiez le G-code dans un viewer avant impression.
+  Ne lancez pas directement une grosse impression sans test.
+
+@{"Retour" LINK MAIN}
+@ENDNODE
+
+@NODE SLICERMUI "SlicerMUI"
+SlicerMUI cote Amiga
+====================
+
+SlicerMUI est l'interface Amiga du Slicer Bridge PC.
+
+Utilisation:
+
+  1. Lancer slicer_server.py sur le PC.
+  2. Dans SlicerMUI, entrer l'IP du PC et le port 18090.
+  3. Cliquer Test.
+  4. Sauver la configuration.
+  5. Choisir un fichier STL local sur l'Amiga.
+  6. Cliquer STL Info pour voir dimensions et scale conseille.
+  7. Choisir le nom du G-code de retour.
+  8. Cliquer Upload+Slice.
+  9. Quand le job est OK, cliquer Download.
+  10. Ouvrir le G-code dans OctoControlSpeak.
+
+SlicerMUI peut aussi aider pour l'impression deux couleurs. Le serveur indique
+un layer conseille quand il detecte une base avec texte releve.
+
+Le G-code final reste sur l'Amiga. Cela permet ensuite de l'envoyer a OctoPrint
+avec OctoControlSpeak.
+
+@{"Retour" LINK MAIN}
+@ENDNODE
+
+@NODE TEXT2STL "Text2STLMUI"
+Text2STLMUI
+===========
+
+Text2STLMUI cree un petit objet STL a partir de texte.
+
+Fonctions:
+
+  Texte sur plusieurs lignes
+  Mode PIXEL 5x7 simple et lisible
+  Mode AMIGA avec certaines fontes systeme
+  Choix majuscules/minuscules/conserver le texte
+  Centrage du texte
+  Export STL ASCII
+
+Le mode PIXEL est recommande pour une impression fiable et lisible.
+Le mode AMIGA depend beaucoup de la fonte choisie. Certaines fontes passent
+bien, d'autres sont moins adaptees a l'impression 3D.
+
+Exemples de fontes testees:
+
+  topaz.font
+  opal.font
+  diamond.font
+
+Conseil:
+
+  Visualisez le STL avec 3DView avant de slicer.
+  Lancez un petit test avant une impression longue.
+
+@{"Retour" LINK MAIN}
+@ENDNODE
+
+@NODE COLOR_PAUSE "GCodeColorPauseMUI"
+GCodeColorPauseMUI
+==================
+
+GCodeColorPauseMUI insere une pause de changement de couleur dans un fichier
+G-code.
+
+Cet outil est prevu pour une imprimante mono-tete / mono-filament:
+
+  Une seule buse
+  Une seule couleur chargee a la fois
+  Changement de filament manuel pendant une pause
+
+Pour une imprimante multi-tete, multi-extrudeur ou multi-couleur automatique,
+il faut laisser le slicer PC gerer les changements d'outil. Ces machines
+utilisent souvent des commandes comme:
+
+  T0
+  T1
+  T2
+
+avec des sequences de purge, temperature et retractation propres a chaque
+machine. GCodeColorPauseMUI ne remplace pas ce systeme.
+
+Workflow:
+
+  1. Slicer le STL.
+  2. Reperer le layer de changement.
+  3. Ouvrir le G-code dans GCodeColorPauseMUI.
+  4. Indiquer le layer.
+  5. Generer un nouveau G-code.
+  6. Envoyer le G-code avec OctoControlSpeak.
+
+La pause utilise une sequence prevue pour changer le filament puis reprendre:
+
+  M400
+  G91
+  G1 Z5 F300
+  G90
+  G1 X10 Y10 F3000
+  @pause Changement couleur
+  G91
+  G1 E5 F150
+  G1 E-1 F300
+  G90
+
+La petite retractation aide a eviter une goutte ou un paquet de filament au
+moment de la reprise.
+
+@{"Retour" LINK MAIN}
+@ENDNODE
+
+@NODE DDD_VIEW "DDD2STLMUI et 3DView"
+DDD2STLMUI et 3DView
+====================
+
+DDD2STLMUI convertit certains fichiers 3D historiques Amiga vers STL.
+
+3DView permet de visualiser des objets 3D sur Amiga. Avec la version corrigee
+de ddd.library, le STL ASCII peut etre charge par 3DView.
+
+Notes:
+
+  Les objets simples passent bien.
+  Les tres gros STL peuvent etre trop lourds pour un Amiga classique.
+  Les STL binaires ne sont pas encore geres par cette version.
+  Certains objets de rendu ne sont pas fermes et peuvent etre refuses par Cura
+  ou PrusaSlicer.
+
+Pour un objet non imprimable:
+
+  Verifiez avec 3D Builder, Cura, PrusaSlicer ou un outil de reparation STL.
+  Un fichier visible n'est pas forcement imprimable.
+
+@{"Retour" LINK MAIN}
+@ENDNODE
+
+@NODE PITEMP "PiTempMUI"
+PiTempMUI
+=========
+
+PiTempMUI surveille la temperature d'un Raspberry Pi depuis l'Amiga.
+
+Principe:
+
+  Raspberry Pi -> petit serveur Python -> Amiga PiTempMUI
+
+Cote Pi:
+
+  python3 pitemp_server.py
+
+Cote Amiga:
+
+  Entrer IP et port du Pi.
+  Cliquer Read ou utiliser le rafraichissement automatique.
+
+Utile pour surveiller un Pi qui fait tourner OctoPrint, surtout dans un boitier
+ferme ou pendant une longue impression.
+
+@{"Retour" LINK MAIN}
+@ENDNODE
+
+@NODE ZSETUP "ZSetupMUI"
+ZSetupMUI
+=========
+
+ZSetupMUI aide a regler le Z offset de l'imprimante depuis l'Amiga.
+
+Attention:
+
+  Cet outil envoie de vraies commandes G-code.
+  Une mauvaise valeur Z peut faire taper la buse dans le plateau.
+  Utilisez-le seulement si vous comprenez le reglage Z de votre machine.
+  Denis fournit cet outil sans responsabilite en cas de mauvais reglage.
+
+Principe general:
+
+  G28        Home
+  G29        Auto-level si supporte
+  M851       Lecture/ecriture Z offset sur firmware Marlin
+  M500       Sauvegarde EEPROM
+
+Par securite, la valeur de depart distribuee doit rester proche de 0.00.
+Reglez par petits pas, par exemple 0.05 mm.
+
+Testez toujours avec une feuille de papier et restez pret a couper la machine.
+
+@{"Retour" LINK MAIN}
+@ENDNODE
+
+@NODE SECURITY "Securite"
+Securite
+========
+
+OctoPrint:
+
+  Ne distribuez jamais votre vraie cle API.
+  Distribuez seulement les fichiers .cfg.example.
+
+SlicerServer:
+
+  Ne l'exposez pas a Internet.
+  Utilisez seulement le reseau local.
+  Gardez ALLOW_PC_PATHS=no.
+  Mettez l'IP de votre Amiga dans ALLOWED_CLIENTS.
+
+Exemple:
+
+  ALLOWED_CLIENTS=127.0.0.1,IP_DE_VOTRE_AMIGA
+
+Remplacez IP_DE_VOTRE_AMIGA par l'adresse IP reelle de votre Amiga,
+par exemple 192.168.1.xxx selon votre reseau.
+
+Imprimante:
+
+  Surveillez les premiers tests.
+  Commencez avec de petits fichiers.
+  Verifiez le profil PrusaSlicer.
+  Gardez l'arret d'urgence disponible.
+
+ZSetup:
+
+  A utiliser avec prudence.
+  Verifiez le sens positif/negatif du Z offset sur votre imprimante.
+
+@{"Retour" LINK MAIN}
+@ENDNODE
+
+@NODE TROUBLE "Depannage"
+Depannage
+=========
+
+OctoControlSpeak ne se connecte pas:
+
+  Verifier que la pile TCP/IP Amiga est en ligne.
+  Verifier IP et port OctoPrint.
+  Verifier la cle API.
+  Verifier que l'imprimante est connectee dans OctoPrint.
+
+OctoPrint refuse un fichier:
+
+  Verifier que c'est bien un fichier .gcode.
+  Eviter les noms trop longs, espaces ou accents pour les tests.
+  Regarder le message dans OctoControlSpeak.
+
+Apres M112:
+
+  L'imprimante peut etre en erreur firmware.
+  Redemarrer ou reconnecter l'imprimante.
+  Utiliser Connect impr. ou RAZ apres retour au calme.
+
+SlicerMUI: serveur ne repond pas:
+
+  Verifier que slicer_server.py tourne sur le PC.
+  Verifier IP et port.
+  Verifier le firewall Windows.
+  Verifier ALLOWED_CLIENTS dans slicer_server.cfg.
+
+SlicerServer dit rejected client:
+
+  Ajouter l'IP de l'Amiga dans ALLOWED_CLIENTS.
+
+SlicerServer dit STL too large:
+
+  Utiliser STL Info.
+  Appliquer le scale conseille.
+  Verifier la taille du plateau dans le profil PrusaSlicer.
+
+PrusaSlicer plante ou ne produit pas de G-code:
+
+  Verifier PRUSA_EXE.
+  Verifier PROFILE_STANDARD.
+  Tester le profil dans PrusaSlicer directement sur le PC.
+
+3DView n'affiche pas un STL:
+
+  Verifier que le STL est ASCII.
+  Essayer avec un objet plus simple.
+  Les gros fichiers peuvent etre trop lents ou trop lourds.
+
+@{"Retour" LINK MAIN}
+@ENDNODE
+
+@NODE CREDITS "Credits"
+Credits
+=======
+
+Projet:
+
+  Denis Costils / Denis-Amiga
+  costils.denis@free.fr
+
+Developpement:
+
+  AmigaE
+  MUI
+  bsdsocket.library
+  OctoPrint
+  PrusaSlicer
+  ddd.library / 3DView
+
+Avec l'aide de Codex / ChatGPT pour le developpement, les tests, la
+documentation et les idees d'outils.
+
+Merci aux communautes Amiga, OctoPrint, PiStorm, Aminet et impression 3D.
+
+Pour que vive l'Amiga.
+
+@{"Retour" LINK MAIN}
+@ENDNODE

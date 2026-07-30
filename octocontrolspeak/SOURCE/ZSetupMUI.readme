@@ -1,0 +1,52 @@
+Short:        MUI front-end for ZSetup
+Author:       Denis Costils, with help from ChatGPT/Codex
+Uploader:     Denis Costils
+Type:         comm/tcp
+Version:      0.1
+Requires:     MUI, ZSetup, OctoPrint
+Architecture: m68k-amigaos
+
+ZSetupMUI is a small MUI front-end for the ZSetup command line tool.
+
+Place these two executables in your 3dtoolbox: assign:
+
+  ZSetup
+  ZSetupMUI
+
+ZSetupMUI calls:
+
+  3dtoolbox:ZSetup
+
+No path configuration is needed, but the 3dtoolbox: assign must exist.
+
+Use the Set button to store the current known Z offset, for example:
+
+  0.00
+
+Then press Start to home the printer, run auto-level, enable bed leveling
+and move the nozzle to the center at Z 0.5.
+
+Use:
+
+  Z -0.05
+  Z +0.05
+
+to adjust by small 0.05 mm steps. Each step also sends M851 and M500 through
+ZSetup, so the value is saved in the printer EEPROM.
+
+When you quit ZSetupMUI, it calls:
+
+  ZSetup HOME
+
+so the printer returns to home with G28.
+
+Keep a sheet of paper under the nozzle and keep your hand near the printer
+stop/power button while testing.
+
+For distribution, ZSetupMUI starts at 0.00 by default for safety. Do not use
+this tool unless you understand the correct Z-offset direction for your printer.
+A wrong Z-offset can make the nozzle hit the bed.
+
+ZSetup refuses offsets outside this range:
+
+  -5.00 mm to +5.00 mm
