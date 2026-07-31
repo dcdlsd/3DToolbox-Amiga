@@ -15,19 +15,25 @@ MODULE 'dos/dos'
 #define IMG_DDD '5:3dtoolbox:icons/ddd2stlmui.iff'
 #define IMG_COLOR '5:3dtoolbox:icons/gcodecolorpausemui.iff'
 #define IMG_ZSETUP '5:3dtoolbox:icons/zsetupmui.iff'
+#define IMG_SLICER '5:3dtoolbox:icons/slicermui.iff'
+#define IMG_TEXT2STL '5:3dtoolbox:icons/text2stlmui.iff'
+#define IMG_3DVIEW '5:3dtoolbox:icons/3dview.iff'
 
 ENUM ID_OCTO=1,
      ID_PITEMP,
      ID_DDD2STL,
      ID_COLOR,
      ID_ZSETUP,
+     ID_SLICER,
+     ID_TEXT2STL,
+     ID_3DVIEW,
      ID_SAVE,
      ID_ABOUT
 
 DEF ap_app, wi_main
 DEF st_path
 DEF bt_save, bt_about, bt_quit
-DEF im_octo, im_pitemp, im_ddd, im_color, im_zsetup
+DEF im_octo, im_pitemp, im_ddd, im_color, im_zsetup, im_slicer, im_text2stl, im_3dview
 DEF tx_status
 DEF g_tool_path[256]:STRING
 
@@ -77,6 +83,12 @@ PROC show_about()
     set_status('GCodeColorPauseMUI: color pause helper')
     about_pause()
     set_status('ZSetupMUI: Z offset adjustment')
+    about_pause()
+    set_status('SlicerMUI: Amiga to PC slicer bridge')
+    about_pause()
+    set_status('Text2STLMUI: text object generator')
+    about_pause()
+    set_status('3DView: 3D object viewer')
     about_pause()
     set_status('Amiga + OctoPrint + 3D printing toolbox')
 ENDPROC
@@ -219,7 +231,7 @@ PROC main() HANDLE
                 MUIA_Window_Title, 'Print 3D Toolbox',
                 MUIA_Window_ID, "P3TB",
                 MUIA_Width, 360,
-                MUIA_Height, 230,
+                MUIA_Height, 285,
                 WindowContents, VGroup,
 
                     Child, GroupObject,
@@ -308,6 +320,48 @@ PROC main() HANDLE
                             End,
                             Child, etiquette('ZSetupMUI'),
                         End,
+
+                        Child, VGroup,
+                            Child, im_slicer := ImageObject,
+                                ButtonFrame,
+                                MUIA_Image_Spec, IMG_SLICER,
+                                MUIA_Image_FreeVert, MUI_TRUE,
+                                MUIA_Image_FreeHoriz, MUI_TRUE,
+                                MUIA_FixWidth, 46,
+                                MUIA_FixHeight, 46,
+                                MUIA_InputMode, MUIV_InputMode_RelVerify,
+                                MUIA_Background, MUII_ButtonBack,
+                            End,
+                            Child, etiquette('SlicerMUI'),
+                        End,
+
+                        Child, VGroup,
+                            Child, im_text2stl := ImageObject,
+                                ButtonFrame,
+                                MUIA_Image_Spec, IMG_TEXT2STL,
+                                MUIA_Image_FreeVert, MUI_TRUE,
+                                MUIA_Image_FreeHoriz, MUI_TRUE,
+                                MUIA_FixWidth, 46,
+                                MUIA_FixHeight, 46,
+                                MUIA_InputMode, MUIV_InputMode_RelVerify,
+                                MUIA_Background, MUII_ButtonBack,
+                            End,
+                            Child, etiquette('Text2STLMUI'),
+                        End,
+
+                        Child, VGroup,
+                            Child, im_3dview := ImageObject,
+                                ButtonFrame,
+                                MUIA_Image_Spec, IMG_3DVIEW,
+                                MUIA_Image_FreeVert, MUI_TRUE,
+                                MUIA_Image_FreeHoriz, MUI_TRUE,
+                                MUIA_FixWidth, 46,
+                                MUIA_FixHeight, 46,
+                                MUIA_InputMode, MUIV_InputMode_RelVerify,
+                                MUIA_Background, MUII_ButtonBack,
+                            End,
+                            Child, etiquette('3DView'),
+                        End,
                     End,
 
                     Child, HGroup,
@@ -334,6 +388,9 @@ PROC main() HANDLE
     doMethod(im_ddd, [MUIM_Notify, MUIA_Pressed, FALSE, ap_app, 2, MUIM_Application_ReturnID, ID_DDD2STL])
     doMethod(im_color, [MUIM_Notify, MUIA_Pressed, FALSE, ap_app, 2, MUIM_Application_ReturnID, ID_COLOR])
     doMethod(im_zsetup, [MUIM_Notify, MUIA_Pressed, FALSE, ap_app, 2, MUIM_Application_ReturnID, ID_ZSETUP])
+    doMethod(im_slicer, [MUIM_Notify, MUIA_Pressed, FALSE, ap_app, 2, MUIM_Application_ReturnID, ID_SLICER])
+    doMethod(im_text2stl, [MUIM_Notify, MUIA_Pressed, FALSE, ap_app, 2, MUIM_Application_ReturnID, ID_TEXT2STL])
+    doMethod(im_3dview, [MUIM_Notify, MUIA_Pressed, FALSE, ap_app, 2, MUIM_Application_ReturnID, ID_3DVIEW])
     doMethod(bt_save, [MUIM_Notify, MUIA_Pressed, FALSE, ap_app, 2, MUIM_Application_ReturnID, ID_SAVE])
     doMethod(bt_about, [MUIM_Notify, MUIA_Pressed, FALSE, ap_app, 2, MUIM_Application_ReturnID, ID_ABOUT])
     doMethod(bt_quit, [MUIM_Notify, MUIA_Pressed, FALSE, ap_app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit])
@@ -355,6 +412,12 @@ PROC main() HANDLE
                     launch_tool('GCodeColorPauseMUI','GCodeColorPauseMUI')
                 CASE ID_ZSETUP
                     launch_tool('ZSetupMUI','ZSetupMUI')
+                CASE ID_SLICER
+                    launch_tool('SlicerMUI','SlicerMUI')
+                CASE ID_TEXT2STL
+                    launch_tool('Text2STLMUI','Text2STLMUI')
+                CASE ID_3DVIEW
+                    launch_tool('3dview/3DView','3DView')
                 CASE ID_SAVE
                     save_config()
                 CASE ID_ABOUT
