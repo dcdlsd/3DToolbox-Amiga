@@ -72,6 +72,20 @@ Fichiers utiles:
   *.info
   fichiers *.cfg.example
 
+Option sources:
+
+  Le tiroir SOURCE contient les sources AmigaE des outils distribues.
+  Le tiroir SOURCE/modules contient les modules .m utiles pour recompiler,
+  dont bsdsocket.m et les modules ddd.
+  Le tiroir SOURCE/ddd_stl_patch contient les sources de la modification STL
+  de ddd.library.
+
+Serveurs PC / Pi:
+
+  PC_SlicerServer contient le serveur Python pour PrusaSlicer.
+  PC_PiTempServer contient le petit serveur Python pour lire la temperature
+  du Raspberry Pi.
+
 Configs dans S:
 
   S:octocontrol_native.cfg
@@ -419,10 +433,6 @@ DDD2STLMUI convertit certains fichiers 3D historiques Amiga vers STL.
 3DView permet de visualiser des objets 3D sur Amiga. Avec la version corrigee
 de ddd.library, le STL ASCII peut etre charge par 3DView.
 
-Credit:
-
-  ddd.library et 3DView: Andre Capus
-
 Notes:
 
   Les objets simples passent bien.
@@ -451,6 +461,7 @@ Principe:
 
 Cote Pi:
 
+  Copier PC_PiTempServer/pitemp_server.py sur le Raspberry Pi.
   python3 pitemp_server.py
 
 Cote Amiga:
@@ -601,7 +612,7 @@ Developpement:
   bsdsocket.library
   OctoPrint
   PrusaSlicer
-  ddd.library / 3DView par Andre Capus
+  ddd.library / 3DView
 
 Avec l'aide de Codex / ChatGPT pour le developpement, les tests, la
 documentation et les idees d'outils.
