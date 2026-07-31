@@ -1,0 +1,52 @@
+<html>
+<head>
+  <title>3DToolbox Amiga - PiTempMUI</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#b8b8b8" text="#000000" link="#0000cc" vlink="#660099">
+<center><table width="760" border="0" cellpadding="6" cellspacing="0" bgcolor="#c8c8c8"><tr><td>
+
+<p><a href="../index.html">Menu</a> | <a href="octocontrolspeak.html">OctoControlSpeak</a></p>
+
+<h1>PiTempMUI</h1>
+
+<center>
+<img src="../screenshots/PiTemp.GIF" width="420" height="230" border="0" alt="PiTempMUI">
+</center>
+
+<h2>Purpose</h2>
+
+<p>
+PiTempMUI reads the temperature of a Raspberry Pi from the Amiga.
+</p>
+
+<h2>Principle</h2>
+
+<pre>
+Raspberry Pi -> small Python server -> Amiga PiTempMUI
+</pre>
+
+<h2>Pi Side</h2>
+
+<p>Copy the script from PC_PiTempServer to the Raspberry Pi, then run:</p>
+
+<pre>
+python3 pitemp_server.py
+</pre>
+
+<h2>Amiga Side</h2>
+
+<p>
+Enter the Pi IP address and port, then click Read or use automatic refresh.
+</p>
+
+<p>
+This is useful when OctoPrint runs on a Raspberry Pi in a small case, especially
+during long prints.
+</p>
+
+<p><a href="../index.html">Back to menu</a></p>
+
+</td></tr></table></center>
+</body>
+</html>

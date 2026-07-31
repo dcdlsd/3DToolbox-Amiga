@@ -1,0 +1,94 @@
+<html>
+<head>
+  <title>3DToolbox Amiga - OctoControlSpeak</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#b8b8b8" text="#000000" link="#0000cc" vlink="#660099">
+<center><table width="760" border="0" cellpadding="6" cellspacing="0" bgcolor="#c8c8c8"><tr><td>
+
+<p><a href="../index.html">Menu</a> | <a href="slicermui.html">SlicerMUI</a> | <a href="troubleshooting.html">Troubleshooting</a></p>
+
+<h1>OctoControlSpeak</h1>
+
+<center>
+<img src="../screenshots/OctoControlSpeak.GIF" width="339" height="604" border="0" alt="OctoControlSpeak">
+</center>
+
+<h2>Purpose</h2>
+
+<p>
+OctoControlSpeak controls OctoPrint from an Amiga without a modern web browser.
+It sends commands to OctoPrint, and OctoPrint controls the 3D printer.
+</p>
+
+<h2>Configuration</h2>
+
+<pre>
+S:octocontrol_native.cfg
+
+OCTOPRINT=192.168.1.xxx:80
+APIKEY=PASTE_YOUR_OCTOPRINT_API_KEY_HERE
+</pre>
+
+<p>
+The API key must be created or copied from OctoPrint with a modern browser.
+Never put your real API key in a public archive.
+</p>
+
+<h2>Connection Buttons</h2>
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr><td><b>Save</b></td><td>Saves IP address, port and API key.</td></tr>
+<tr><td><b>Test</b></td><td>Checks that OctoPrint answers.</td></tr>
+<tr><td><b>Connect printer</b></td><td>Asks OctoPrint to reconnect the printer.</td></tr>
+<tr><td><b>RAZ</b></td><td>Stops heaters, lifts Z, moves X/Y away and disables motors.</td></tr>
+<tr><td><b>Mini</b></td><td>Hides the main window and keeps the monitor visible.</td></tr>
+</table>
+
+<h2>Read Buttons</h2>
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr><td><b>Status</b></td><td>Reads printer state, temperatures and progress.</td></tr>
+<tr><td><b>Job</b></td><td>Reads current print job information.</td></tr>
+<tr><td><b>M105</b></td><td>Temperature command, useful as a communication test.</td></tr>
+<tr><td><b>Files</b></td><td>Lists G-code files stored in OctoPrint.</td></tr>
+<tr><td><b>Print selected</b></td><td>Starts the selected OctoPrint file.</td></tr>
+<tr><td><b>Delete</b></td><td>Deletes the selected OctoPrint file.</td></tr>
+</table>
+
+<h2>Print Buttons</h2>
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr><td><b>Upload</b></td><td>Uploads a G-code file from the Amiga to OctoPrint.</td></tr>
+<tr><td><b>Upload+Print</b></td><td>Uploads the G-code and starts printing.</td></tr>
+<tr><td><b>Pause</b></td><td>Pauses the print.</td></tr>
+<tr><td><b>Resume</b></td><td>Resumes the print.</td></tr>
+<tr><td><b>Cancel</b></td><td>Cancels the print and runs a calm-down sequence.</td></tr>
+<tr><td><b>EMERGENCY M112</b></td><td>Firmware emergency stop. Use only for a real problem.</td></tr>
+</table>
+
+<h2>Machine Buttons</h2>
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr><td><b>Home</b></td><td>Homes the printer.</td></tr>
+<tr><td><b>Motors OFF</b></td><td>Disables the motors.</td></tr>
+<tr><td><b>PLA</b></td><td>PLA preheat according to the configuration.</td></tr>
+<tr><td><b>Heat OFF</b></td><td>Turns heaters off.</td></tr>
+<tr><td><b>Heat Nozzle</b></td><td>Heats the nozzle for filament handling.</td></tr>
+<tr><td><b>Insert Fil.</b></td><td>Inserts filament.</td></tr>
+<tr><td><b>Retract Fil.</b></td><td>Retracts filament.</td></tr>
+</table>
+
+<h2>Speech</h2>
+
+<p>
+Speech uses SAY, narrator.device and translator.library. Spoken sentences can
+be changed in S:octocontrol_speech.cfg or S:octocontrol_speech_en.cfg. If the
+speech system is not installed, the program remains usable.
+</p>
+
+<p><a href="../index.html">Back to menu</a></p>
+
+</td></tr></table></center>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<html>
+<head>
+  <title>3DToolbox Amiga - ZSetupMUI</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#b8b8b8" text="#000000" link="#0000cc" vlink="#660099">
+<center><table width="760" border="0" cellpadding="6" cellspacing="0" bgcolor="#c8c8c8"><tr><td>
+
+<p><a href="../index.html">Menu</a> | <a href="octocontrolspeak.html">OctoControlSpeak</a> | <a href="troubleshooting.html">Troubleshooting</a></p>
+
+<h1>ZSetupMUI</h1>
+
+<center>
+<img src="../screenshots/ZSetup.GIF" width="420" height="260" border="0" alt="ZSetupMUI">
+</center>
+
+<h2>Purpose</h2>
+
+<p>
+ZSetupMUI helps adjust the printer Z offset from the Amiga.
+</p>
+
+<h2>Warning</h2>
+
+<p>
+This tool sends real G-code movement and Z-offset commands. Wrong values can
+make the nozzle hit the bed. Use it only if you understand your printer Z setup.
+</p>
+
+<h2>General Sequence</h2>
+
+<pre>
+G28   Home
+G29   Auto-level if supported
+M851  Read/write Z offset on Marlin firmware
+M500  Save settings
+</pre>
+
+<p>
+For safety, default values should stay conservative when distributed.
+</p>
+
+<p><a href="../index.html">Back to menu</a></p>
+
+</td></tr></table></center>
+</body>
+</html>

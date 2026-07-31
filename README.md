@@ -167,10 +167,11 @@ Suggested layout:
 Amiga-3DToolbox/
   README.md
   LICENSE
+  Docs/              HTML documentation in French
+  Docs_EN/           HTML documentation in English
   amiga_sources/
   pc_python_servers/
   pc_python_tools/
-  docs/
   screenshots/
   examples_and_assets/
   releases/
@@ -220,4 +221,3 @@ This software controls real hardware.
 Use it carefully. Always supervise a 3D printer while testing new commands,
 G-code files or Z-offset settings. The author is not responsible for damaged
 hardware, failed prints or wrong printer configuration.
-

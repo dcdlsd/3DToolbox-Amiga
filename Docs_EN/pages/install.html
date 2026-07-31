@@ -1,0 +1,102 @@
+<html>
+<head>
+  <title>3DToolbox Amiga - Installation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#b8b8b8" text="#000000" link="#0000cc" vlink="#660099">
+<center><table width="760" border="0" cellpadding="6" cellspacing="0" bgcolor="#c8c8c8"><tr><td>
+
+<p><a href="../index.html">Menu</a> | <a href="troubleshooting.html">Troubleshooting</a></p>
+
+<h1>General Installation</h1>
+
+<h2>Amiga Drawer</h2>
+
+<p>Copy the <b>3DToolbox</b> drawer where you want it, for example:</p>
+
+<pre>
+SYS:Tools/3DToolbox/
+</pre>
+
+<p>You can create an assign:</p>
+
+<pre>
+Assign 3dtoolbox: SYS:Tools/3DToolbox
+</pre>
+
+<p>
+This assign is useful because the toolbox launcher and icons expect the
+<b>3dtoolbox:</b> path.
+</p>
+
+<h2>Main Programs</h2>
+
+<pre>
+Print3DToolboxMUI
+OctoControlSpeak
+OctoControlSpeak_EN
+PiTempMUI
+DDD2STLMUI
+GCodeColorPauseMUI
+ZSetupMUI
+ZSetup
+SlicerMUI
+Text2STLMUI
+3DView
+</pre>
+
+<h2>Configuration Files</h2>
+
+<p>Copy and edit the example files you need:</p>
+
+<pre>
+S:octocontrol_native.cfg
+S:octocontrol_speech.cfg
+S:octocontrol_speech_en.cfg
+S:pitemp.cfg
+S:zsetup.cfg
+S:slicermui.cfg
+</pre>
+
+<p>
+Never publish your real OctoPrint API key. Keep only example configuration
+files in public archives.
+</p>
+
+<h2>Sources</h2>
+
+<p>
+The <b>SOURCE</b> drawer contains the AmigaE source files for the distributed
+tools. <b>SOURCE/modules</b> contains useful AmigaE modules such as
+<b>bsdsocket.m</b> and the <b>ddd</b> modules. <b>SOURCE/ddd_stl_patch</b>
+contains the STL-related ddd.library source patch.
+</p>
+
+<h2>PC and Pi Servers</h2>
+
+<p>
+<b>PC_SlicerServer</b> contains the Python server used by SlicerMUI and
+PrusaSlicer.
+</p>
+
+<p>
+<b>PC_PiTempServer</b> contains the small Python server used by PiTempMUI on a
+Raspberry Pi.
+</p>
+
+<h2>Requirements</h2>
+
+<ul>
+<li>AmigaOS 3.x compatible system</li>
+<li>MUI</li>
+<li>A TCP/IP stack such as Miami, AmiTCP or Roadshow</li>
+<li>bsdsocket.library</li>
+<li>OctoPrint reachable on the local network</li>
+<li>Python 3 and PrusaSlicer on the PC for Slicer Bridge</li>
+</ul>
+
+<p><a href="../index.html">Back to menu</a></p>
+
+</td></tr></table></center>
+</body>
+</html>

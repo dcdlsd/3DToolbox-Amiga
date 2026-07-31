@@ -1,0 +1,79 @@
+<html>
+<head>
+  <title>3DToolbox Amiga - Troubleshooting</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#b8b8b8" text="#000000" link="#0000cc" vlink="#660099">
+<center><table width="760" border="0" cellpadding="6" cellspacing="0" bgcolor="#c8c8c8"><tr><td>
+
+<p><a href="../index.html">Menu</a></p>
+
+<h1>Troubleshooting and Security</h1>
+
+<h2>OctoControlSpeak Does Not Connect</h2>
+
+<ul>
+<li>Check OctoPrint IP address and port.</li>
+<li>Check the OctoPrint API key.</li>
+<li>Make sure the Amiga TCP/IP stack is online.</li>
+<li>Check that the printer is connected inside OctoPrint.</li>
+</ul>
+
+<h2>SlicerServer Does Not Answer</h2>
+
+<ul>
+<li>Make sure slicer_server.py is running on the PC.</li>
+<li>Check the IP address and port in SlicerMUI.</li>
+<li>Check Windows firewall.</li>
+<li>Check ALLOWED_CLIENTS in slicer_server.cfg.</li>
+</ul>
+
+<h2>Rejected Client</h2>
+
+<p>
+If the server reports a rejected client, add the Amiga IP address to
+ALLOWED_CLIENTS.
+</p>
+
+<pre>
+ALLOWED_CLIENTS=127.0.0.1,IP_OF_YOUR_AMIGA
+</pre>
+
+<h2>STL Too Large</h2>
+
+<ul>
+<li>Use STL Info.</li>
+<li>Apply the suggested scale.</li>
+<li>Check the bed size in the PrusaSlicer profile.</li>
+</ul>
+
+<h2>PrusaSlicer Fails</h2>
+
+<ul>
+<li>Check PRUSA_EXE.</li>
+<li>Check PROFILE_STANDARD.</li>
+<li>Test the profile directly in PrusaSlicer on the PC.</li>
+</ul>
+
+<h2>3DView Does Not Display an STL</h2>
+
+<ul>
+<li>Try with a simple ASCII STL first.</li>
+<li>Large objects can be too slow or too heavy.</li>
+<li>Repair bad geometry with a PC tool if needed.</li>
+</ul>
+
+<h2>Security</h2>
+
+<ul>
+<li>Never publish your real OctoPrint API key.</li>
+<li>Do not expose slicer_server.py to the internet.</li>
+<li>Keep ALLOWED_CLIENTS limited to your Amiga machines.</li>
+<li>Always supervise the printer when testing new G-code.</li>
+</ul>
+
+<p><a href="../index.html">Back to menu</a></p>
+
+</td></tr></table></center>
+</body>
+</html>

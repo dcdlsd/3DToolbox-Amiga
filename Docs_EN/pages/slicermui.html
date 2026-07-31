@@ -1,0 +1,72 @@
+<html>
+<head>
+  <title>3DToolbox Amiga - SlicerMUI</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#b8b8b8" text="#000000" link="#0000cc" vlink="#660099">
+<center><table width="760" border="0" cellpadding="6" cellspacing="0" bgcolor="#c8c8c8"><tr><td>
+
+<p><a href="../index.html">Menu</a> | <a href="octocontrolspeak.html">OctoControlSpeak</a> | <a href="troubleshooting.html">Troubleshooting</a></p>
+
+<h1>SlicerMUI / Slicer Bridge</h1>
+
+<center>
+<img src="../screenshots/SlicerBridge.GIF" width="560" height="460" border="0" alt="SlicerMUI">
+</center>
+
+<h2>Purpose</h2>
+
+<p>
+SlicerMUI sends an STL file from the Amiga to a PC. The PC runs PrusaSlicer
+from the command line and sends the generated G-code back to the Amiga.
+</p>
+
+<h2>Workflow</h2>
+
+<pre>
+Amiga STL -> PC SlicerServer -> PrusaSlicer -> G-code -> Amiga
+</pre>
+
+<p>
+The G-code can then be uploaded to OctoPrint with OctoControlSpeak.
+</p>
+
+<h2>PC Side</h2>
+
+<p>Run the Python server from the PC_SlicerServer drawer:</p>
+
+<pre>
+python slicer_server.py
+</pre>
+
+<p>
+Configure slicer_server.cfg with the PrusaSlicer path, printer profile, output
+drawers and allowed Amiga IP addresses.
+</p>
+
+<h2>Amiga Buttons</h2>
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr><td><b>Test</b></td><td>Checks that the PC server answers.</td></tr>
+<tr><td><b>Save</b></td><td>Saves IP, port and paths in S:slicermui.cfg.</td></tr>
+<tr><td><b>STL Info</b></td><td>Uploads the STL and asks the server for dimensions and scale advice.</td></tr>
+<tr><td><b>Upload+Slice</b></td><td>Uploads the STL and starts slicing.</td></tr>
+<tr><td><b>Last</b></td><td>Shows the last server answer.</td></tr>
+<tr><td><b>Job</b></td><td>Reads the slicing job state.</td></tr>
+<tr><td><b>Download</b></td><td>Downloads the generated G-code.</td></tr>
+<tr><td><b>Files</b></td><td>Lists STL and G-code files known by the server.</td></tr>
+<tr><td><b>Delete</b></td><td>Deletes the selected STL/G-code from the server folders.</td></tr>
+</table>
+
+<h2>Notes</h2>
+
+<p>
+On real 68060 hardware, uploads can be slower than on PiStorm or WinUAE. The
+transfer is intentionally gentle to remain reliable on classic network cards.
+</p>
+
+<p><a href="../index.html">Back to menu</a></p>
+
+</td></tr></table></center>
+</body>
+</html>
