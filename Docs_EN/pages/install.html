@@ -37,8 +37,18 @@ This assign is useful because the toolbox launcher and icons expect the
 </p>
 
 <p>
-The installer can store this assign in <b>S:3DToolbox-startup</b> and add
-<b>Execute S:3DToolbox-startup</b> to <b>S:User-startup</b>.
+The installer stores this assign in <b>S:3DToolbox-startup</b> and activates it
+for the current session.
+</p>
+
+<p>
+For safety, it does not modify <b>S:User-startup</b> directly. To make the
+assign permanent after reboot, manually add this line:
+</p>
+
+<pre>
+Execute S:3DToolbox-startup
+</pre>
 </p>
 
 <h2>Main Programs</h2>

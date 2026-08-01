@@ -85,7 +85,10 @@ Assign:
 
     Assign 3DToolbox: chemin/3DToolbox
 
-  Il peut ajouter Execute S:3DToolbox-startup dans S:User-startup.
+  Par securite, il ne modifie pas S:User-startup directement.
+  Pour rendre l'assign permanent, ajouter manuellement:
+
+    Execute S:3DToolbox-startup
 
 Sources:
 

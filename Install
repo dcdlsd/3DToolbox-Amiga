@@ -6,8 +6,8 @@
   "This installer copies 3DToolbox to a drawer named 3DToolbox.\n\n"
   "You can choose the parent drawer. The installer will create the "
   "3DToolbox drawer if it does not already exist.\n\n"
-  "It can also create S:3DToolbox-startup and add an Execute line to "
-  "S:User-startup so the assign 3DToolbox: is restored after reboot."
+  "It also creates S:3DToolbox-startup. For safety, it does not modify "
+  "S:User-startup directly."
 )
 
 (set @default-dest "SYS:Tools")
@@ -35,21 +35,6 @@
       "study the tools.\n\n" @askbool-help
     )
     (choices "Install sources" "No sources")
-    (default 1)
-  )
-)
-
-(set installAssign
-  (askbool
-    (prompt "Do you want to add the 3DToolbox: assign to S:User-startup?")
-    (help
-      "The assign lets all tools find icons and support files with the path "
-      "3DToolbox:. The installer creates S:3DToolbox-startup and can add this "
-      "line to S:User-startup:\n\nExecute S:3DToolbox-startup\n\n"
-      "If you reinstall several times, check S:User-startup for duplicate "
-      "lines.\n\n" @askbool-help
-    )
-    (choices "Add assign" "Do not modify User-startup")
     (default 1)
   )
 )
@@ -176,26 +161,15 @@
 
 (run ("Assign 3DToolbox: \"%s\"" installDir))
 
-(if installAssign
-  (
-    (textfile
-      (prompt "Updating S:User-startup...")
-      (help @textfile-help)
-      (dest "S:User-startup")
-      (append
-        "\n;BEGIN 3DToolbox\n"
-        "Execute S:3DToolbox-startup\n"
-        ";END 3DToolbox\n"
-      )
-    )
-  )
-)
-
 (message
   "3DToolbox is installed in:\n\n"
   installDir "\n\n"
   "The assign is:\n\n"
   "3DToolbox: -> " installDir "\n\n"
+  "The installer created S:3DToolbox-startup and activated the assign for "
+  "the current session.\n\n"
+  "To make the assign permanent, add this line manually to S:User-startup:\n\n"
+  "Execute S:3DToolbox-startup\n\n"
   "PC / Pi notes:\n\n"
   "- PC_SlicerServer contains slicer_server.py and its configuration.\n"
   "  Install Python 3 and PrusaSlicer on the PC before using SlicerMUI.\n\n"

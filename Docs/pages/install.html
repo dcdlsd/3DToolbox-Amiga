@@ -36,8 +36,18 @@ Assign 3dtoolbox: SYS:Tools/3DToolbox
 </pre>
 
 <p>
-L'installateur peut memoriser cet assign dans <b>S:3DToolbox-startup</b> et
-ajouter <b>Execute S:3DToolbox-startup</b> dans <b>S:User-startup</b>.
+L'installateur cree cet assign dans <b>S:3DToolbox-startup</b> et active
+l'assign pour la session courante.
+</p>
+
+<p>
+Par securite, il ne modifie pas <b>S:User-startup</b> directement. Pour rendre
+l'assign permanent apres redemarrage, ajoutez manuellement cette ligne:
+</p>
+
+<pre>
+Execute S:3DToolbox-startup
+</pre>
 </p>
 
 <h2>Sources</h2>

@@ -144,7 +144,7 @@ It can:
 - copy the PC/Pi server explanations and scripts
 - optionally install the AmigaE source drawer
 - create `S:3DToolbox-startup`
-- optionally add `Execute S:3DToolbox-startup` to `S:User-startup`
+- show the line to add manually to `S:User-startup`
 
 The assign used by the tools is:
 
@@ -153,6 +153,13 @@ Assign 3DToolbox: SYS:Tools/3DToolbox
 ```
 
 The destination path depends on the drawer selected during installation.
+
+For safety, the installer does not modify `S:User-startup` directly. To make
+the assign permanent after reboot, add this line manually:
+
+```text
+Execute S:3DToolbox-startup
+```
 
 ## OctoPrint API Key
 
