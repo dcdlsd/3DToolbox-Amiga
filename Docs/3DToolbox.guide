@@ -43,7 +43,13 @@ Sections:
 Installation Amiga
 ==================
 
-Copiez les programmes dans un tiroir de votre choix, par exemple:
+Le plus simple est de lancer le script Install fourni a la racine de
+l'archive.
+
+Il demande l'emplacement, cree le tiroir 3DToolbox si besoin, copie les outils,
+les docs et les fichiers PC/Pi, puis peut creer l'assign 3DToolbox:.
+
+Installation manuelle possible dans un tiroir de votre choix, par exemple:
 
   SYS:Tools/3DToolbox/
 
@@ -67,10 +73,19 @@ Programmes principaux:
 
 Fichiers utiles:
 
+  Install
   tina2s.iff
   icons/
   *.info
-  fichiers *.cfg.example
+  fichiers *.cfg
+
+Assign:
+
+  L'installateur cree S:3DToolbox-startup avec:
+
+    Assign 3DToolbox: chemin/3DToolbox
+
+  Il peut ajouter Execute S:3DToolbox-startup dans S:User-startup.
 
 Option sources:
 
@@ -298,9 +313,9 @@ Pour une autre imprimante:
   7. Exporter ou retrouver le profil .ini.
   8. Mettre le chemin de ce .ini dans slicer_server.cfg.
 
-Exemple Tina2S de Denis:
+Exemple de profil:
 
-  PROFILE_STANDARD=C:\Users\d.costils\AppData\Roaming\PrusaSlicer\Tina2s_denis_complete_standard.ini
+  PROFILE_STANDARD=C:\Users\VotreNom\AppData\Roaming\PrusaSlicer\VotreProfil.ini
 
 Ce n'est qu'un exemple.
 
@@ -522,7 +537,7 @@ Securite
 OctoPrint:
 
   Ne distribuez jamais votre vraie cle API.
-  Distribuez seulement les fichiers .cfg.example.
+  Distribuez seulement des fichiers .cfg avec valeurs neutres.
 
 SlicerServer:
 

@@ -12,7 +12,14 @@
 
 <h2>Amiga Drawer</h2>
 
-<p>Copy the <b>3DToolbox</b> drawer where you want it, for example:</p>
+<p>
+The easiest method is to use the <b>Install</b> script included at the root of
+the archive. It asks for the destination, creates the <b>3DToolbox</b> drawer,
+copies the tools, documentation and PC/Pi files, and can create the
+<b>3DToolbox:</b> assign.
+</p>
+
+<p>Example installation:</p>
 
 <pre>
 SYS:Tools/3DToolbox/
@@ -27,6 +34,11 @@ Assign 3dtoolbox: SYS:Tools/3DToolbox
 <p>
 This assign is useful because the toolbox launcher and icons expect the
 <b>3dtoolbox:</b> path.
+</p>
+
+<p>
+The installer can store this assign in <b>S:3DToolbox-startup</b> and add
+<b>Execute S:3DToolbox-startup</b> to <b>S:User-startup</b>.
 </p>
 
 <h2>Main Programs</h2>
@@ -70,18 +82,26 @@ The <b>SOURCE</b> drawer contains the AmigaE source files for the distributed
 tools. <b>SOURCE/modules</b> contains useful AmigaE modules such as
 <b>bsdsocket.m</b> and the <b>ddd</b> modules. <b>SOURCE/ddd_stl_patch</b>
 contains the STL-related ddd.library source patch.
+The installer lets you choose whether this drawer should be installed.
 </p>
 
 <h2>PC and Pi Servers</h2>
 
 <p>
 <b>PC_SlicerServer</b> contains the Python server used by SlicerMUI and
-PrusaSlicer.
+PrusaSlicer. Install Python 3 and PrusaSlicer on the PC, then configure
+slicer_server.cfg.
 </p>
 
 <p>
 <b>PC_PiTempServer</b> contains the small Python server used by PiTempMUI on a
-Raspberry Pi.
+Raspberry Pi or Linux machine. Copy pitemp_server.py there and run it with
+Python 3.
+</p>
+
+<p>
+The Amiga TCP/IP stack must be online before using OctoControlSpeak,
+SlicerMUI, PiTempMUI or ZSetupMUI.
 </p>
 
 <h2>Requirements</h2>

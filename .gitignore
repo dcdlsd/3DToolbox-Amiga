@@ -218,3 +218,4 @@ __marimo__/
 .streamlit/secrets.toml
 3DToolbox/AGWViewer.ini
 AGWViewer.ini
+3DToolbox/SOURCE/*.cfg.example.info

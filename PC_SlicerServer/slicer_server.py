@@ -36,7 +36,7 @@ DEFAULT_MAX_UPLOAD_MB = 64
 DEFAULT_ALLOW_PC_PATHS = False
 DEFAULT_PRUSA_EXE = Path(r"C:\Program Files\Prusa3D\PrusaSlicer\prusa-slicer-console.exe")
 DEFAULT_PROFILE_STANDARD = Path(
-    r"C:\Users\d.costils\AppData\Roaming\PrusaSlicer\Tina2s_denis_complete_standard.ini"
+    r"C:\Users\YourName\AppData\Roaming\PrusaSlicer\Your_Printer_Profile.ini"
 )
 DEFAULT_BASE_DIR = SCRIPT_DIR / "SlicerBridge"
 

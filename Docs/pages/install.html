@@ -13,7 +13,14 @@
 <h2>Cote Amiga</h2>
 
 <p>
-Copiez les programmes dans un tiroir, par exemple:
+Le plus simple est d'utiliser le script <b>Install</b> fourni a la racine de
+l'archive. Il demande l'emplacement, cree le tiroir <b>3DToolbox</b>, copie les
+outils, les docs et les fichiers PC/Pi, puis peut creer l'assign
+<b>3DToolbox:</b>.
+</p>
+
+<p>
+Exemple d'installation:
 </p>
 
 <pre>
@@ -27,6 +34,19 @@ Vous pouvez aussi creer un assign:
 <pre>
 Assign 3dtoolbox: SYS:Tools/3DToolbox
 </pre>
+
+<p>
+L'installateur peut memoriser cet assign dans <b>S:3DToolbox-startup</b> et
+ajouter <b>Execute S:3DToolbox-startup</b> dans <b>S:User-startup</b>.
+</p>
+
+<h2>Sources</h2>
+
+<p>
+Pendant l'installation, vous pouvez choisir d'installer ou non le tiroir
+<b>SOURCE</b>. Il contient les sources AmigaE et les modules utiles, dont
+<b>bsdsocket.m</b> et les modules lies a <b>ddd.library</b>.
+</p>
 
 <p>
 Programmes principaux:
@@ -81,6 +101,27 @@ PiTempMUI et ZSetupMUI.
 <p>
 Pour SlicerMUI, installez Python 3 et PrusaSlicer. Le script
 slicer_server.py tourne sur le PC et appelle prusa-slicer-console.exe.
+Les fichiers et explications sont copies dans:
+</p>
+
+<pre>
+3DToolbox:PC_SlicerServer/
+</pre>
+
+<h2>Cote Pi / Linux</h2>
+
+<p>
+Pour PiTempMUI, copiez le script pitemp_server.py sur le Raspberry Pi ou la
+machine Linux a surveiller, puis lancez-le avec Python 3.
+</p>
+
+<pre>
+3DToolbox:PC_PiTempServer/
+</pre>
+
+<p>
+La pile TCP/IP doit etre active sur l'Amiga avant d'utiliser OctoControlSpeak,
+SlicerMUI, PiTempMUI ou ZSetupMUI.
 </p>
 
 <h2>Cote OctoPrint</h2>

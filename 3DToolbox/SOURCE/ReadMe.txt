@@ -173,10 +173,10 @@ Configuration examples are provided in the package.
 
 Typical files:
 
-- octocontrol_native.cfg.example
-- octocontrol_speech.cfg.example
-- octocontrol_speech_en.cfg.example
-- pitemp.cfg.example
+- octocontrol_native.cfg
+- octocontrol_speech.cfg
+- octocontrol_speech_en.cfg
+- pitemp.cfg
 - slicer_server.cfg
 
 Keep your real OctoPrint API key private. Do not publish a configuration file

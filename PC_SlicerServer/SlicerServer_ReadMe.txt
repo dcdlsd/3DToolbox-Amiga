@@ -14,8 +14,7 @@ Requirements
 - Python 3 on the PC.
 - PrusaSlicer installed here:
   C:\Program Files\Prusa3D\PrusaSlicer\prusa-slicer-console.exe
-- Tina2S profile here:
-  C:\Users\d.costils\AppData\Roaming\PrusaSlicer\Tina2s_denis_complete_standard.ini
+- a PrusaSlicer printer profile exported as an .ini file
 
 Start manually
 --------------
@@ -43,7 +42,7 @@ Example:
   ALLOW_PC_PATHS=no
   PRUSA_EXE=C:\Program Files\Prusa3D\PrusaSlicer\prusa-slicer-console.exe
   BASE_DIR=C:\SlicerBridge
-  PROFILE_STANDARD=C:\Users\YourName\AppData\Roaming\PrusaSlicer\Tina2s_denis_complete_standard.ini
+  PROFILE_STANDARD=C:\Users\YourName\AppData\Roaming\PrusaSlicer\Your_Printer_Profile.ini
 
 HOST=0.0.0.0 means that the PC accepts connections from the local network.
 ALLOWED_CLIENTS limits which machines may use the server. For normal use, put

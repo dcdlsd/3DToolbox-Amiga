@@ -1,0 +1,207 @@
+; $VER: 3DToolbox Install 1.0 (01.08.26)
+;
+; Amiga Installer script for 3DToolbox.
+
+(welcome
+  "This installer copies 3DToolbox to a drawer named 3DToolbox.\n\n"
+  "You can choose the parent drawer. The installer will create the "
+  "3DToolbox drawer if it does not already exist.\n\n"
+  "It can also create S:3DToolbox-startup and add an Execute line to "
+  "S:User-startup so the assign 3DToolbox: is restored after reboot."
+)
+
+(set @default-dest "SYS:Tools")
+
+(set installParent
+  (askdir
+    (prompt "Choose where 3DToolbox should be installed.")
+    (help
+      "Choose the parent drawer. A drawer named 3DToolbox will be created "
+      "inside it.\n\nExample: if you choose SYS:Tools, the final drawer will "
+      "be SYS:Tools/3DToolbox.\n\n" @askdir-help
+    )
+    (default @default-dest)
+  )
+)
+
+(set installDir (tackon installParent "3DToolbox"))
+
+(set installSources
+  (askbool
+    (prompt "Do you want to install the AmigaE source files?")
+    (help
+      "The SOURCE drawer contains the AmigaE sources and useful modules such "
+      "as bsdsocket.m and ddd modules. Install it if you want to rebuild or "
+      "study the tools.\n\n" @askbool-help
+    )
+    (choices "Install sources" "No sources")
+    (default 1)
+  )
+)
+
+(set installAssign
+  (askbool
+    (prompt "Do you want to add the 3DToolbox: assign to S:User-startup?")
+    (help
+      "The assign lets all tools find icons and support files with the path "
+      "3DToolbox:. The installer creates S:3DToolbox-startup and can add this "
+      "line to S:User-startup:\n\nExecute S:3DToolbox-startup\n\n"
+      "If you reinstall several times, check S:User-startup for duplicate "
+      "lines.\n\n" @askbool-help
+    )
+    (choices "Add assign" "Do not modify User-startup")
+    (default 1)
+  )
+)
+
+(if (<> (exists installDir) 2)
+  (
+    (makedir installDir
+      (prompt "Creating 3DToolbox drawer...")
+      (help @makedir-help)
+      (infos)
+    )
+  )
+)
+
+(copyfiles
+  (prompt "Copying Amiga tools...")
+  (help @copyfiles-help)
+  (source "3DToolbox")
+  (dest installDir)
+  (all)
+  (infos)
+  (optional "askuser" "force")
+)
+
+(copyfiles
+  (prompt "Copying main documentation...")
+  (help @copyfiles-help)
+  (source "README.md")
+  (dest installDir)
+  (optional "askuser" "force")
+)
+
+(copyfiles
+  (source "LICENSE")
+  (dest installDir)
+  (optional "askuser" "force")
+)
+
+(copyfiles
+  (source "3DToolbox.guide")
+  (dest installDir)
+  (optional "askuser" "force")
+)
+
+(if (<> (exists (tackon installDir "Docs")) 2)
+  ((makedir (tackon installDir "Docs") (infos)))
+)
+(copyfiles
+  (prompt "Copying French HTML documentation...")
+  (help @copyfiles-help)
+  (source "Docs")
+  (dest (tackon installDir "Docs"))
+  (all)
+  (infos)
+  (optional "askuser" "force")
+)
+
+(if (<> (exists (tackon installDir "Docs_EN")) 2)
+  ((makedir (tackon installDir "Docs_EN") (infos)))
+)
+(copyfiles
+  (prompt "Copying English HTML documentation...")
+  (help @copyfiles-help)
+  (source "Docs_EN")
+  (dest (tackon installDir "Docs_EN"))
+  (all)
+  (infos)
+  (optional "askuser" "force")
+)
+
+(if (<> (exists (tackon installDir "PC_SlicerServer")) 2)
+  ((makedir (tackon installDir "PC_SlicerServer") (infos)))
+)
+(copyfiles
+  (prompt "Copying PC SlicerServer files...")
+  (help @copyfiles-help)
+  (source "PC_SlicerServer")
+  (dest (tackon installDir "PC_SlicerServer"))
+  (all)
+  (infos)
+  (optional "askuser" "force")
+)
+
+(if (<> (exists (tackon installDir "PC_PiTempServer")) 2)
+  ((makedir (tackon installDir "PC_PiTempServer") (infos)))
+)
+(copyfiles
+  (prompt "Copying Raspberry Pi temperature server files...")
+  (help @copyfiles-help)
+  (source "PC_PiTempServer")
+  (dest (tackon installDir "PC_PiTempServer"))
+  (all)
+  (infos)
+  (optional "askuser" "force")
+)
+
+(if (NOT installSources)
+  (
+    (if (exists (tackon installDir "SOURCE"))
+      (
+        (run ("Delete \"%s\" ALL QUIET" (tackon installDir "SOURCE")))
+      )
+    )
+    (if (exists (tackon installDir "SOURCE.info"))
+      (
+        (run ("Delete \"%s\" QUIET" (tackon installDir "SOURCE.info")))
+      )
+    )
+  )
+)
+
+(run ("Delete S:3DToolbox-startup QUIET"))
+
+(textfile
+  (prompt "Creating S:3DToolbox-startup...")
+  (help @textfile-help)
+  (dest "S:3DToolbox-startup")
+  (append
+    "; 3DToolbox assign\n"
+    "; Created by the 3DToolbox installer\n"
+    "Assign 3DToolbox: \"" installDir "\"\n"
+  )
+)
+
+(run ("Assign 3DToolbox: \"%s\"" installDir))
+
+(if installAssign
+  (
+    (textfile
+      (prompt "Updating S:User-startup...")
+      (help @textfile-help)
+      (dest "S:User-startup")
+      (append
+        "\n;BEGIN 3DToolbox\n"
+        "Execute S:3DToolbox-startup\n"
+        ";END 3DToolbox\n"
+      )
+    )
+  )
+)
+
+(message
+  "3DToolbox is installed in:\n\n"
+  installDir "\n\n"
+  "The assign is:\n\n"
+  "3DToolbox: -> " installDir "\n\n"
+  "PC / Pi notes:\n\n"
+  "- PC_SlicerServer contains slicer_server.py and its configuration.\n"
+  "  Install Python 3 and PrusaSlicer on the PC before using SlicerMUI.\n\n"
+  "- PC_PiTempServer contains pitemp_server.py.\n"
+  "  Copy it to the Raspberry Pi or Linux machine and run it with Python 3.\n\n"
+  "Read Docs/index.html or Docs_EN/index.html for detailed setup."
+)
+
+(complete 100)
