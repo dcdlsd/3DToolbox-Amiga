@@ -39,6 +39,10 @@ Features:
 - optional speech feedback through `SAY` / `narrator.device`
 - French and English versions
 
+Note: the OctoPrint file list is intentionally read with a limited buffer to
+remain stable on classic Amiga systems. If OctoControlSpeak reports a partial
+file list, remove old G-code files from OctoPrint and prefer short file names.
+
 ### PiTempMUI
 
 Small MUI client used to read the temperature of a Raspberry Pi running a tiny
@@ -52,6 +56,15 @@ Utility to insert a color-change pause in a G-code file.
 
 Designed mainly for single-extruder printers. The generated pause sequence lets
 the user manually change filament, then continue the print.
+
+The automatic output name uses a short suffix:
+
+```text
+example.gcode -> example_color.gcode
+```
+
+This keeps generated G-code names shorter and easier for OctoControlSpeak and
+classic Amiga file lists.
 
 ### DDD2STLMUI
 
@@ -147,6 +160,15 @@ Typical files:
 
 Keep your real OctoPrint API key private. Do not publish a configuration file
 containing your personal key.
+
+## Current Notes
+
+- OctoControlSpeak keeps the OctoPrint file list stable by limiting the amount
+  of JSON read from OctoPrint.
+- If `(partial list: too many files)` or `liste partielle: trop de fichiers`
+  appears, clean old G-code files from OctoPrint or use shorter file names.
+- GCodeColorPauseMUI now generates shorter names such as `part_color.gcode`
+  instead of long layer-based names.
 
 ## Security Notes
 

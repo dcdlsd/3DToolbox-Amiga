@@ -93,7 +93,7 @@ PROC make_output_name(source:PTR TO CHAR,dest:PTR TO CHAR,layer)
     ENDWHILE
 
     IF lastdot<>-1 THEN base[lastdot]:=0
-    StringF(dest,'\s_color_layer\d.gcode',base,layer)
+    StringF(dest,'\s_color.gcode',base)
 ENDPROC
 
 PROC convert_file(source,dest,insert_layer,observed_layer)

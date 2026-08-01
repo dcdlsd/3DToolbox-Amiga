@@ -137,6 +137,12 @@ Fonctions:
   Urgence M112
   Messages par SAY/narrator.device
 
+Note:
+
+  La liste Files est volontairement limitee pour rester stable sur Amiga.
+  Si "liste partielle: trop de fichiers" apparait, supprimer d'anciens
+  G-code dans OctoPrint et preferer des noms de fichiers courts.
+
 Configuration minimale dans S:octocontrol_native.cfg:
 
   OCTOPRINT=192.168.1.100:80
@@ -405,6 +411,12 @@ Workflow:
   5. Generer un nouveau G-code.
   6. Envoyer le G-code avec OctoControlSpeak.
 
+Nom de sortie automatique:
+
+  modele.gcode -> modele_color.gcode
+
+Le suffixe court evite les noms trop longs dans la liste OctoPrint.
+
 La pause utilise une sequence prevue pour changer le filament puis reprendre:
 
   M400
@@ -557,6 +569,12 @@ OctoPrint refuse un fichier:
   Verifier que c'est bien un fichier .gcode.
   Eviter les noms trop longs, espaces ou accents pour les tests.
   Regarder le message dans OctoControlSpeak.
+
+Files affiche "liste partielle":
+
+  La reponse OctoPrint est trop longue.
+  Effacer des anciens G-code dans OctoPrint.
+  Preferer des noms de fichiers courts.
 
 Apres M112:
 

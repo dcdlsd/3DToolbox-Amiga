@@ -72,20 +72,6 @@ Fichiers utiles:
   *.info
   fichiers *.cfg.example
 
-Option sources:
-
-  Le tiroir SOURCE contient les sources AmigaE des outils distribues.
-  Le tiroir SOURCE/modules contient les modules .m utiles pour recompiler,
-  dont bsdsocket.m et les modules ddd.
-  Le tiroir SOURCE/ddd_stl_patch contient les sources de la modification STL
-  de ddd.library.
-
-Serveurs PC / Pi:
-
-  PC_SlicerServer contient le serveur Python pour PrusaSlicer.
-  PC_PiTempServer contient le petit serveur Python pour lire la temperature
-  du Raspberry Pi.
-
 Configs dans S:
 
   S:octocontrol_native.cfg
@@ -136,6 +122,12 @@ Fonctions:
   Chauffe buse, insertion/retrait filament
   Urgence M112
   Messages par SAY/narrator.device
+
+Note:
+
+  La liste Files est volontairement limitee pour rester stable sur Amiga.
+  Si "liste partielle: trop de fichiers" apparait, supprimer d'anciens
+  G-code dans OctoPrint et preferer des noms de fichiers courts.
 
 Configuration minimale dans S:octocontrol_native.cfg:
 
@@ -405,6 +397,12 @@ Workflow:
   5. Generer un nouveau G-code.
   6. Envoyer le G-code avec OctoControlSpeak.
 
+Nom de sortie automatique:
+
+  modele.gcode -> modele_color.gcode
+
+Le suffixe court evite les noms trop longs dans la liste OctoPrint.
+
 La pause utilise une sequence prevue pour changer le filament puis reprendre:
 
   M400
@@ -432,6 +430,10 @@ DDD2STLMUI convertit certains fichiers 3D historiques Amiga vers STL.
 
 3DView permet de visualiser des objets 3D sur Amiga. Avec la version corrigee
 de ddd.library, le STL ASCII peut etre charge par 3DView.
+
+Credit:
+
+  ddd.library et 3DView: Andre Capus
 
 Notes:
 
@@ -461,7 +463,6 @@ Principe:
 
 Cote Pi:
 
-  Copier PC_PiTempServer/pitemp_server.py sur le Raspberry Pi.
   python3 pitemp_server.py
 
 Cote Amiga:
@@ -558,6 +559,12 @@ OctoPrint refuse un fichier:
   Eviter les noms trop longs, espaces ou accents pour les tests.
   Regarder le message dans OctoControlSpeak.
 
+Files affiche "liste partielle":
+
+  La reponse OctoPrint est trop longue.
+  Effacer des anciens G-code dans OctoPrint.
+  Preferer des noms de fichiers courts.
+
 Apres M112:
 
   L'imprimante peut etre en erreur firmware.
@@ -612,7 +619,7 @@ Developpement:
   bsdsocket.library
   OctoPrint
   PrusaSlicer
-  ddd.library / 3DView
+  ddd.library / 3DView par Andre Capus
 
 Avec l'aide de Codex / ChatGPT pour le developpement, les tests, la
 documentation et les idees d'outils.

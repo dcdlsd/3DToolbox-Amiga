@@ -45,6 +45,10 @@ Features:
 - optional speech feedback through SAY / narrator.device
 - French and English versions
 
+Note: the OctoPrint file list is intentionally read with a limited buffer to
+remain stable on classic Amiga systems. If a partial file list is reported,
+remove old G-code files from OctoPrint and prefer short file names.
+
 
 PiTempMUI
 ---------
@@ -62,6 +66,13 @@ Utility to insert a color-change pause in a G-code file.
 
 Designed mainly for single-extruder printers. The generated pause sequence lets
 the user manually change filament, then continue the print.
+
+The automatic output name uses a short suffix:
+
+example.gcode -> example_color.gcode
+
+This keeps generated G-code names shorter and easier for OctoControlSpeak and
+classic Amiga file lists.
 
 
 DDD2STLMUI

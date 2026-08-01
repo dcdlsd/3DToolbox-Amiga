@@ -14,7 +14,7 @@ MODULE 'dos/dos', 'libraries/asl'
 #define SPEECH_CFG_FILE 'S:octocontrol_speech.cfg'
 #define IMAGE_TINA '5:PROGDIR:tina2s.iff'
 #define UPLOAD_BLOCK 8192
-#define FILES_BUFFER 30000
+#define FILES_BUFFER 8192
 #define FIONBIO $8004667E
 
 ENUM ID_SAVE=1,
@@ -550,13 +550,29 @@ PROC show_message(texte)
 ENDPROC
 
 PROC http_status_line(destination:PTR TO CHAR)
-    DEF i=0
+    DEF i=0, pos=0, debut=0
 
-    WHILE g_response[i] AND (g_response[i] <> 13) AND (g_response[i] <> 10) AND (i < 255)
-        destination[i] := g_response[i]
+    WHILE (g_response[i] = 13) OR (g_response[i] = 10) OR (g_response[i] = 32)
         i++
     ENDWHILE
-    destination[i] := 0
+    IF begins(g_response + i, 'HTTP/') = FALSE
+        i := 0
+        WHILE (i < 64) AND g_response[i]
+            IF begins(g_response + i, 'HTTP/')
+                debut := i
+                i := 64
+            ENDIF
+            i++
+        ENDWHILE
+        i := debut
+    ENDIF
+
+    WHILE g_response[i] AND (g_response[i] <> 13) AND (g_response[i] <> 10) AND (pos < 255)
+        destination[pos] := g_response[i]
+        i++
+        pos++
+    ENDWHILE
+    destination[pos] := 0
 ENDPROC
 
 PROC upload_progress(force)
@@ -581,8 +597,17 @@ PROC upload_progress(force)
 ENDPROC
 
 PROC has_http_success()
-    /* Le code HTTP commence apres "HTTP/1.x ": 2xx = commande acceptee. */
-ENDPROC g_response[9] = 50
+    DEF i=0
+
+    /* Cherche HTTP/1.x 2xx au debut de la reponse, meme si la pile ajoute du bruit. */
+    WHILE (i < 32) AND g_response[i]
+        IF begins(g_response + i, 'HTTP/')
+            IF g_response[i+9] = 50 THEN RETURN TRUE
+            RETURN FALSE
+        ENDIF
+        i++
+    ENDWHILE
+ENDPROC FALSE
 
 PROC request_reply(method, path, body, label)
     IF read_gui_config() = FALSE
@@ -1085,21 +1110,21 @@ PROC fill_files_list()
     DEF i=0, debut, fin, nombre=0
 
     list_clear(li_files)
-    WHILE g_files[i]
+    WHILE (i < FILES_BUFFER-1) AND g_files[i]
         IF begins(g_files + i, '"name"')
             i := i + 6
-            WHILE g_files[i] AND (g_files[i] <> 58)
+            WHILE (i < FILES_BUFFER-1) AND g_files[i] AND (g_files[i] <> 58)
                 i++
             ENDWHILE
             IF g_files[i] = 58
                 i++
-                WHILE (g_files[i] = 32) OR (g_files[i] = 9)
+                WHILE (i < FILES_BUFFER-1) AND ((g_files[i] = 32) OR (g_files[i] = 9))
                     i++
                 ENDWHILE
                 IF g_files[i] = 34
                     debut := i + 1
                     fin := debut
-                    WHILE g_files[fin] AND (g_files[fin] <> 34)
+                    WHILE (fin < FILES_BUFFER-1) AND g_files[fin] AND (g_files[fin] <> 34)
                         fin++
                     ENDWHILE
                     IF g_files[fin] = 34
@@ -1109,8 +1134,15 @@ PROC fill_files_list()
                             nombre++
                         ENDIF
                         i := fin + 1
+                    ELSE
+                        /* Reponse incomplete : sortir du parser sans boucler. */
+                        i := fin
                     ENDIF
+                ELSE
+                    i++
                 ENDIF
+            ELSE
+                i++
             ENDIF
         ELSE
             i++
@@ -1118,9 +1150,14 @@ PROC fill_files_list()
     ENDWHILE
 
     IF nombre = 0 THEN list_add(li_files, '(aucun fichier G-code)')
+    IF g_files[FILES_BUFFER-2]
+        list_add(li_files, '(liste partielle: trop de fichiers)')
+    ENDIF
 ENDPROC
 
 PROC read_files()
+    DEF statut[256]:STRING
+
     IF read_gui_config() = FALSE
         show_message('Indique une IP et une cle API OctoPrint.')
         RETURN
@@ -1128,17 +1165,21 @@ PROC read_files()
 
     list_clear(li_files)
     list_add(li_files, 'Lecture des fichiers...')
-    IF http_request('GET', '/api/files/local', '', g_files, FILES_BUFFER) = FALSE
+    clear_memory(g_files, FILES_BUFFER)
+    IF http_request('GET', '/api/files/local?recursive=false', '', g_files, FILES_BUFFER) = FALSE
         list_clear(li_files)
         list_add(li_files, '(OctoPrint ne repond pas)')
         show_message('Impossible de lire les fichiers OctoPrint.')
         RETURN
     ENDIF
     copy_value(g_response, g_files, 8192)
-    IF has_http_success() = FALSE
+    IF (has_http_success() = FALSE) AND (find_text(g_files, '"files"', 0) < 0)
+        http_status_line(statut)
         list_clear(li_files)
         list_add(li_files, '(erreur OctoPrint)')
-        show_message('OctoPrint refuse la lecture des fichiers.')
+        list_add(li_files, statut)
+        StringF(g_result, 'OctoPrint refuse la lecture: \s', statut)
+        show_message(g_result)
         RETURN
     ENDIF
 
@@ -1190,8 +1231,8 @@ PROC selected_octoprint_file()
         show_message('Fichier OctoPrint non selectionne.')
         RETURN
     ENDIF
-    IF begins(entree, '(aucun fichier')
-        show_message('Il n y a aucun fichier G-code dans OctoPrint.')
+    IF begins(entree, '(')
+        show_message('Selectionne un vrai fichier G-code.')
         RETURN
     ENDIF
 ENDPROC entree
@@ -1520,6 +1561,8 @@ PROC main() HANDLE
                         MUIA_Listview_Input, MUI_TRUE,
                         MUIA_Listview_List, li_files := ListObject,
                             MUIA_Frame, MUIV_Frame_InputList,
+                            MUIA_List_ConstructHook, MUIV_List_ConstructHook_String,
+                            MUIA_List_DestructHook, MUIV_List_DestructHook_String,
                         End,
                     End,
 
